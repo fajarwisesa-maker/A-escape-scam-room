@@ -146,6 +146,19 @@ All progress is saved **locally in your browser** via `localStorage`. No data is
 
 ---
 
+## 🤝 Contributing
+
+Want to add a new case, achievement, or UI improvement?  
+Read the full **[CONTRIBUTING.md](./CONTRIBUTING.md)** — it covers:
+
+- How to add a new case (with full template)
+- How to add achievements and ranks
+- How to edit bilingual UI strings
+- Git workflow + deploy steps
+- Team rules and testing checklist
+
+---
+
 ## 📄 License
 
 This project is open source and free to use for educational purposes.
