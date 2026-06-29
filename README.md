@@ -3,7 +3,6 @@
 > **A digital security education game for Indonesian students (SMP/SMA)**
 
 [![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-escape--scam--room.vercel.app-6c63ff?style=for-the-badge)](https://escape-scam-room.vercel.app)
-[![GitHub](https://img.shields.io/badge/GitHub-Social Project-181717?style=for-the-badge&logo=github)](https://github.com/fajarwisesa-maker/A-escape-scam-room)
 
 ---
 
