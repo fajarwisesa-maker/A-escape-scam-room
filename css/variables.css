@@ -1,0 +1,72 @@
+/* =============================================================
+       🎨 CSS — CYBER ESCAPE: PERANGKAP DIGITAL
+       ============================================================= */
+
+    /* --- Reset & Base --- */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-desktop: #0a0e27;
+      --bg-taskbar: rgba(12, 12, 30, 0.92);
+      --accent: #6c63ff;
+      --accent-glow: rgba(108, 99, 255, 0.4);
+      --success: #00e676;
+      --danger: #ff1744;
+      --warning: #ffc107;
+      --text-primary: #e8e8f0;
+      --text-secondary: #9e9eb8;
+      --glass-bg: rgba(20, 20, 50, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --wa-green: #00a884;
+      --wa-dark: #111b21;
+      --wa-chat-bg: #0b141a;
+      --wa-bubble-in: #202c33;
+      --wa-bubble-out: #005c4b;
+      --ig-bg: #000000;
+      --ig-header: #000000;
+      --ig-bubble-in: #262626;
+      --ig-accent: #0095f6;
+      --font: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      --risk-safe: #00e676;
+      --risk-cautious: #ffc107;
+      --risk-risky: #ff9800;
+      --risk-fatal: #ff1744;
+      --bg-main: #080914;
+      --bg-panel: rgba(13, 18, 42, 0.78);
+      --bg-panel-strong: rgba(18, 24, 56, 0.92);
+      --accent-primary: #7c5cff;
+      --accent-secondary: #21d4fd;
+      --accent-pink: #ff5ca8;
+      --gradient-cyber: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      --gradient-danger: linear-gradient(135deg, #ff5ca8, #ef4444);
+      --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.35);
+      --shadow-glow: 0 0 30px rgba(124, 92, 255, 0.32);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --transition-fast: 160ms ease;
+      --transition-med: 260ms ease;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: var(--font);
+      background: #000;
+      color: var(--text-primary);
+      user-select: none;
+      cursor: default;
+    }
