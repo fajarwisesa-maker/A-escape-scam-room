@@ -430,3 +430,30 @@
     height: 34px;
   }
 }
+
+
+/* =============================================================
+   SYSTEM HACKED sequence — responsive
+   ============================================================= */
+@media (max-width: 900px) {
+  #glitch-layer { align-items: flex-start; }
+  .hacked-alert-stack {
+    top: 52px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+  .lockdown-sheet { margin-top: 230px; }
+}
+
+@media (max-width: 600px) {
+  .lockdown-sheet {
+    width: 100%;
+    max-height: none;
+    margin-top: 210px;
+  }
+  .lockdown-body { max-height: none; padding: 20px; }
+  .lockdown-actions { flex-direction: column-reverse; }
+  .lockdown-btn { width: 100%; }
+  .hacked-alert-body span { white-space: normal; }
+}

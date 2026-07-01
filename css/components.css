@@ -839,3 +839,170 @@
 .toast-name {
   font-weight: 850;
 }
+
+
+/* =============================================================
+   SYSTEM HACKED sequence — structure
+   ============================================================= */
+#glitch-layer { overflow: hidden; }
+
+/* Alert cascade (top-right, never overlaps the centered sheet) */
+.hacked-alert-stack {
+  position: absolute;
+  top: 66px;
+  right: 20px;
+  z-index: 2;
+  width: min(300px, calc(100vw - 40px));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.hacked-alert {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 13px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 69, 58, 0.30);
+  background: rgba(20, 18, 30, 0.60);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  backdrop-filter: blur(22px) saturate(150%);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.42);
+  color: var(--text-primary);
+}
+.hacked-alert-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 69, 58, 0.92);
+  color: #fff;
+  font-weight: 900;
+  font-size: 14px;
+}
+.hacked-alert-body { display: flex; flex-direction: column; line-height: 1.3; min-width: 0; }
+.hacked-alert-body strong { font-size: 12.5px; }
+.hacked-alert-body span {
+  font-size: 12px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hacked-alert-time { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+
+/* Lockdown sheet (centered by the flex overlay; z above alerts) */
+.lockdown-sheet {
+  position: relative;
+  z-index: 3;
+  margin: auto;
+  width: min(540px, calc(100vw - 32px));
+  max-height: calc(100svh - 176px);
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(180deg, rgba(30, 26, 42, 0.94), rgba(15, 13, 25, 0.96));
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  backdrop-filter: blur(30px) saturate(150%);
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 69, 58, 0.18), 0 0 60px rgba(255, 69, 58, 0.20);
+  color: var(--text-primary);
+}
+.lockdown-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.tl-dot { width: 12px; height: 12px; border-radius: 50%; }
+.tl-dot.red { background: #ff5f57; }
+.tl-dot.amber { background: #febc2e; }
+.tl-dot.green { background: #28c840; }
+.lockdown-titlebar-text {
+  margin-left: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.lockdown-body {
+  padding: 24px;
+  text-align: center;
+  overflow-y: auto;
+  max-height: calc(100svh - 232px);
+}
+.lockdown-shield {
+  font-size: 46px;
+  line-height: 1;
+  margin-bottom: 6px;
+  filter: drop-shadow(0 0 14px rgba(255, 69, 58, 0.6));
+}
+.lockdown-title {
+  margin: 4px 0 14px;
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #ff453a;
+  text-shadow: 0 0 26px rgba(255, 69, 58, 0.5);
+}
+.lockdown-terminal {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+  padding: 12px 14px;
+  margin: 0 0 16px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #30d158;
+  min-height: 74px;
+}
+.term-line { white-space: pre-wrap; word-break: break-word; }
+.term-line.done { color: #30d158; }
+.lockdown-terminal .term-line:last-child.done { color: #ff6b60; }
+.lockdown-edu {
+  color: var(--text-secondary);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+.lockdown-risks { display: grid; gap: 8px; text-align: left; margin-bottom: 20px; }
+.lockdown-risk {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 13px;
+  border-radius: 14px;
+  background: rgba(255, 69, 58, 0.10);
+  border: 1px solid rgba(255, 69, 58, 0.22);
+  font-size: var(--fs-small);
+  color: var(--text-primary);
+}
+.lockdown-risk-icon { font-size: 18px; text-align: center; }
+.lockdown-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.lockdown-btn {
+  min-width: 150px;
+  padding: 13px 22px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: var(--fs-body);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+.lockdown-btn.primary { color: #fff; background: var(--gradient-danger); box-shadow: var(--shadow-danger); }
+.lockdown-btn.secondary {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.lockdown-btn:hover { transform: translateY(-2px); }
+.lockdown-btn.primary:hover { box-shadow: 0 22px 50px rgba(255, 69, 58, 0.4); }
+.lockdown-btn.secondary:hover { background: rgba(255, 255, 255, 0.16); }
+.lockdown-btn:active { transform: translateY(0) scale(0.98); }
+.lockdown-btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }

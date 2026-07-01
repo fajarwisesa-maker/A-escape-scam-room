@@ -558,43 +558,151 @@
       });
     }
 
+    /* ===== SYSTEM HACKED sequence (macOS cinematic) ===== */
     function startGlitchSequence() {
       const choice = state.currentChoice;
       state.phase = 'glitch';
+      const reduced = document.body.classList.contains('reduce-motion');
+
+      // brief impact flash
       const flash = document.createElement('div');
       flash.className = 'screen-flash';
       document.body.appendChild(flash);
       setTimeout(() => flash.remove(), 240);
 
       const gl = $('glitch-layer');
-      gl.innerHTML = '<div class="scanlines"></div>';
+      gl.innerHTML =
+        '<div class="hacked-vignette" aria-hidden="true"></div>' +
+        '<div class="glitch-fx" aria-hidden="true"><div class="scanlines"></div></div>' +
+        '<div class="hacked-alert-stack" id="hacked-alert-stack" aria-label="System alerts"></div>';
       showLayer('glitch-layer');
+      if (!reduced) {
+        document.body.classList.add('glitch-shake');
+        gl.classList.add('glitch-active');
+        setTimeout(() => document.body.classList.remove('glitch-shake'), 640);
+        setTimeout(() => gl.classList.remove('glitch-active'), 950);
+      }
       playGlitchSound();
 
-      const msgs = currentLang === 'id'
-        ? ['Akses tidak sah terdeteksi', 'Aktivitas malware terindikasi', 'Koneksi server asing aktif', 'Kredensial berisiko bocor']
-        : ['Unauthorized access detected', 'Malware activity indicated', 'Unknown server connection active', 'Credentials may be exposed'];
-      msgs.forEach((msg, i) => {
+      // 3. macOS-style alert cascade (top-right, staggered)
+      const alerts = currentLang === 'id'
+        ? ['Akses tidak sah terdeteksi', 'Koneksi server asing aktif', 'Aktivitas malware terindikasi', 'Kredensial berisiko bocor']
+        : ['Unauthorized access detected', 'Unknown server connection active', 'Malware activity indicated', 'Credentials may be exposed'];
+      const nowLabel = currentLang === 'id' ? 'Baru saja' : 'Just now';
+      const stack = $('hacked-alert-stack');
+      alerts.forEach((msg, i) => {
         setTimeout(() => {
-          const p = document.createElement('div');
-          p.className = 'hacked-popup';
-          p.innerHTML = `<strong>System Alert</strong><br>${msg}`;
-          p.style.left = (12 + i * 13) + '%';
-          p.style.top = (14 + (i % 2) * 22) + '%';
-          gl.appendChild(p);
-          playGlitchSound();
-        }, 260 + i * 320);
+          if (!stack || !stack.isConnected) return;
+          const card = document.createElement('div');
+          card.className = 'hacked-alert';
+          card.innerHTML =
+            '<span class="hacked-alert-icon" aria-hidden="true">!</span>' +
+            '<div class="hacked-alert-body"><strong>System Alert</strong><span>' + msg + '</span></div>' +
+            '<span class="hacked-alert-time">' + nowLabel + '</span>';
+          stack.appendChild(card);
+          if (i % 2 === 0) playGlitchSound();
+        }, reduced ? i * 70 : 240 + i * 130);
       });
 
-      setTimeout(() => {
-        const banner = document.createElement('div');
-        banner.className = 'hacked-banner';
-        banner.innerHTML = `
-          <h1>${currentLang === 'id' ? 'System Hacked' : 'System Hacked'}</h1>
-          <p>${currentLang === 'id' ? 'Pilihan ini membuka celah keamanan. Mari lihat risiko nyatanya.' : 'This choice opened a security risk. Let us review what happened.'}</p>
-          <button class="btn-continue" onclick="afterGlitch()">${currentLang === 'id' ? 'Pelajari Risiko' : 'Review the Risk'}</button>`;
-        gl.appendChild(banner);
-      }, 1800);
+      // 4. Lockdown sheet
+      setTimeout(() => revealLockdown(choice, reduced), reduced ? 300 : 1500);
+    }
+
+    function revealLockdown(choice, reduced) {
+      const gl = $('glitch-layer');
+      if (!gl.classList.contains('active')) return;
+      const hd = (choice && choice.hackedDetails) || {};
+      const items = hd.items || [];
+      const eduLine = currentLang === 'id'
+        ? 'Pilihan ini membuka celah keamanan. Mari lihat risiko nyatanya.'
+        : 'This choice opened a security gap. Let us look at the real risks.';
+      const learnLabel = currentLang === 'id' ? 'Pelajari Risiko' : 'Review the Risk';
+      const retryLabel = currentLang === 'id' ? 'Coba Lagi' : 'Try Again';
+      const termTitle = currentLang === 'id' ? 'terminal-penyerang — zsh' : 'attacker-terminal — zsh';
+
+      const risksHtml = items.map((it) =>
+        '<div class="lockdown-risk"><span class="lockdown-risk-icon" aria-hidden="true">' + it.icon +
+        '</span><span>' + T(it.text) + '</span></div>'
+      ).join('');
+
+      const sheet = document.createElement('div');
+      sheet.className = 'lockdown-sheet';
+      sheet.setAttribute('role', 'alertdialog');
+      sheet.setAttribute('aria-label', 'System Hacked');
+      sheet.innerHTML =
+        '<div class="lockdown-titlebar"><span class="tl-dot red"></span><span class="tl-dot amber"></span>' +
+        '<span class="tl-dot green"></span><span class="lockdown-titlebar-text">' + termTitle + '</span></div>' +
+        '<div class="lockdown-body">' +
+          '<div class="lockdown-shield" aria-hidden="true">🔓</div>' +
+          '<h1 class="lockdown-title' + (reduced ? '' : ' flicker') + '">SYSTEM HACKED</h1>' +
+          '<div class="lockdown-terminal" id="lockdown-terminal" aria-hidden="true"></div>' +
+          '<p class="lockdown-edu">' + eduLine + '</p>' +
+          (risksHtml ? '<div class="lockdown-risks">' + risksHtml + '</div>' : '') +
+          '<div class="lockdown-actions">' +
+            '<button class="lockdown-btn secondary" onclick="hackedRetry()">' + retryLabel + '</button>' +
+            '<button class="lockdown-btn primary" onclick="hackedLearnMore()">' + learnLabel + '</button>' +
+          '</div>' +
+        '</div>';
+      gl.appendChild(sheet);
+
+      const primaryBtn = sheet.querySelector('.lockdown-btn.primary');
+      if (primaryBtn) setTimeout(() => { try { primaryBtn.focus(); } catch (e) {} }, reduced ? 0 : 480);
+
+      const termLines = [
+        '> Unauthorized access detected...',
+        '> Exfiltrating data... 34%... 78%... 100%',
+        '> Credentials compromised.'
+      ];
+      const term = $('lockdown-terminal');
+      if (!term) return;
+      if (reduced) {
+        term.innerHTML = termLines.map((l) => '<div class="term-line done">' + l + '</div>').join('');
+      } else {
+        typeTerminal(term, termLines);
+      }
+    }
+
+    function typeTerminal(el, lines) {
+      let li = 0;
+      function typeLine() {
+        if (!el || !el.isConnected || li >= lines.length) return;
+        const text = lines[li];
+        const line = document.createElement('div');
+        line.className = 'term-line';
+        el.appendChild(line);
+        let ci = 0;
+        const timer = setInterval(() => {
+          if (!el.isConnected) { clearInterval(timer); return; }
+          line.textContent = text.slice(0, ci + 1);
+          ci++;
+          if (ci >= text.length) {
+            clearInterval(timer);
+            line.classList.add('done');
+            li++;
+            setTimeout(typeLine, 240);
+          }
+        }, 26);
+      }
+      typeLine();
+    }
+
+    function cleanupHackedFx() {
+      document.body.classList.remove('glitch-shake');
+      const gl = $('glitch-layer');
+      if (gl) gl.classList.remove('glitch-active');
+    }
+
+    function hackedLearnMore() {
+      cleanupHackedFx();
+      hideLayer('glitch-layer');
+      showEducation();
+    }
+
+    function hackedRetry() {
+      // Record the fatal result exactly like the normal path, then replay.
+      finalizeChoiceResult();
+      cleanupHackedFx();
+      retryCase();
     }
 
     function showEducation() {
@@ -751,6 +859,11 @@ window.CyberEscapeGame = {
   finalizeChoiceResult,
   processChoiceEffect,
   startGlitchSequence,
+  revealLockdown,
+  typeTerminal,
+  cleanupHackedFx,
+  hackedLearnMore,
+  hackedRetry,
   afterGlitch,
   showNearMiss,
   showEducation,
