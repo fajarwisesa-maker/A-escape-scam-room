@@ -9,8 +9,12 @@
       const t = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
       const d1 = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
       const d2 = now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      $('desktop-time').textContent = t; $('desktop-date').textContent = d1;
-      $('taskbar-time').textContent = t; $('taskbar-date').textContent = d2;
+      const dt = $('desktop-time'); if (dt) dt.textContent = t;
+      const dd = $('desktop-date'); if (dd) dd.textContent = d1;
+      const tt = $('taskbar-time'); if (tt) tt.textContent = t;
+      const td = $('taskbar-date'); if (td) td.textContent = d2;
+      const mt = $('mac-menubar-time'); if (mt) mt.textContent = t;
+      const md = $('mac-menubar-date'); if (md) md.textContent = d2;
     }
     setInterval(updateClock, 1000); updateClock();
 
@@ -82,27 +86,49 @@
       const rank = getRank(score);
       const idx = RANKS.indexOf(rank);
       const next = RANKS[idx + 1];
-      let pct, label;
+      let pct, nextTitle, remain;
       if (!next) {
         pct = 100;
-        label = `${rank.icon} ${T(rank.title)} · ${T(UI.rankMax)} 🏆`;
+        nextTitle = 'Max Rank';
+        remain = 0;
       } else {
         const span = (next.min - rank.min) || 1;
         pct = Math.max(5, Math.min(100, Math.round(((score - rank.min) / span) * 100)));
-        const remain = Math.max(0, next.min - score);
-        label = `${rank.icon} ${T(rank.title)} → ${next.icon} ${T(next.title)} · ${remain} ${T(UI.rankPtsTo)}`;
+        nextTitle = next.title.en || T(next.title);
+        remain = Math.max(0, next.min - score);
       }
-      el.innerHTML = `<div class="rank-prog-label">${label}</div><div class="rank-prog-track"><div class="rank-prog-fill" style="width:${pct}%"></div></div>`;
+      el.innerHTML = `
+        <div class="rank-prog-head">
+          <strong>${rank.title.en || T(rank.title)}</strong>
+          <span class="rank-prog-arrow">→</span>
+          <span>${nextTitle}</span>
+          <em>${next ? `${remain} pts to go` : 'Max rank reached'}</em>
+        </div>
+        <div class="rank-prog-track"><div class="rank-prog-fill" style="width:${pct}%"></div></div>
+        <div class="rank-prog-label">${next ? `${remain} pts to go` : 'Max rank reached'}</div>`;
     }
 
     function renderMenuStats() {
       const stats = getProgressStats();
+      const icons = {
+        rank: '<svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18"/><path d="M6 8c0-3 3-5 6-5s6 2 6 5c0 4-3 7-6 7s-6-3-6-7Z"/><path d="M8 21h8"/></svg>',
+        score: '<svg viewBox="0 0 24 24" focusable="false"><path d="M12 3 4 8l8 5 8-5-8-5Z"/><path d="m4 13 8 5 8-5"/><path d="m4 18 8 3 8-3"/></svg>',
+        cases: '<svg viewBox="0 0 24 24" focusable="false"><path d="M4 5h16v14H4z"/><path d="M8 9h8"/><path d="M8 13h5"/></svg>',
+        badges: '<svg viewBox="0 0 24 24" focusable="false"><path d="M8 4h8v7a4 4 0 0 1-8 0V4Z"/><path d="M8 6H5v3a4 4 0 0 0 4 4"/><path d="M16 6h3v3a4 4 0 0 1-4 4"/><path d="M12 15v4"/><path d="M8 21h8"/></svg>',
+      };
       $('menu-stats').innerHTML = [
-        { label: T(UI.statScore), value: `${stats.score} pts` },
-        { label: T(UI.statRank), value: `${stats.rank.icon} ${T(stats.rank.title)}` },
-        { label: T(UI.statCases), value: `${stats.completed}/${stats.playable}` },
-        { label: T(UI.statAchievements), value: `${stats.unlocked}/${stats.totalAchievements}` },
-      ].map(item => `<div class="stat-chip"><div class="stat-value">${item.value}</div><div class="stat-label">${item.label}</div></div>`).join('');
+        { key: 'score', label: 'Total Score', value: `${stats.score} pts` },
+        { key: 'rank', label: 'Current Rank', value: stats.rank.title.en || T(stats.rank.title) },
+        { key: 'cases', label: 'Cases Done', value: `${stats.completed}/${stats.playable}` },
+        { key: 'badges', label: 'Badges Unlocked', value: `${stats.unlocked}/${stats.totalAchievements}` },
+      ].map(item => `
+        <div class="stat-chip stat-${item.key}">
+          <span class="svg-icon stat-icon" aria-hidden="true">${icons[item.key]}</span>
+          <div>
+            <div class="stat-value">${item.value}</div>
+            <div class="stat-label">${item.label}</div>
+          </div>
+        </div>`).join('');
     }
 
     function updateDashStats() {
@@ -162,14 +188,15 @@
       $('splash-btn-text').textContent = T(UI.startBtn);
       $('splash-footer').textContent = T(UI.splashFooter);
       var _spTag = $('splash-tagline'); if (_spTag) _spTag.textContent = T(UI.splashTagline);
-      $('menu-tagline').textContent = T(UI.tagline);
-      $('menu-btn-start').textContent = T(UI.menuStart);
-      $('menu-btn-cases').textContent = T(UI.menuCases);
-      $('menu-btn-achieve').textContent = T(UI.menuAchieve);
-      $('menu-btn-settings').textContent = T(UI.menuSettings);
-      $('menu-btn-reset').textContent = T(UI.menuReset);
-      $('menu-btn-about').textContent = T(UI.menuAbout);
-      $('menu-lang-btn').textContent = T(UI.menuLangBtn);
+      $('menu-tagline').textContent = 'THE DIGITAL TRAP';
+      $('menu-btn-start').textContent = 'START GAME';
+      $('menu-btn-cases').textContent = 'SELECT CASE';
+      $('menu-btn-achieve').textContent = 'ACHIEVEMENTS';
+      $('menu-btn-settings').textContent = 'SETTINGS';
+      $('menu-btn-reset').textContent = 'RESET PROGRESS';
+      $('menu-btn-about').textContent = 'ABOUT GAME';
+      const menuLangText = $('menu-lang-btn')?.querySelector('.lang-label');
+      if (menuLangText) menuLangText.textContent = currentLang === 'id' ? 'Bahasa Indonesia' : 'English';
       $('menu-score-display').textContent = T(UI.menuScore) + SaveManager.data.score + ' pts';
       renderMenuStats();
       renderRankProgress();
@@ -409,6 +436,179 @@
         div.className = 'about-item';
         div.innerHTML = `<strong>${T(item.title)}</strong><span>${T(item.body)}</span>`;
         grid.appendChild(div);
+      });
+    }
+
+    // ===== macOS VISUAL RENDER OVERRIDES =====
+    function renderRankProgress() {
+      const el = $('menu-rank-progress');
+      if (!el) return;
+      const score = SaveManager.data.score;
+      const rank = getRank(score);
+      const idx = RANKS.indexOf(rank);
+      const next = RANKS[idx + 1];
+      let pct = 100;
+      let remainText = T(UI.rankMax);
+      let nextTitle = T(rank.title);
+      if (next) {
+        const span = (next.min - rank.min) || 1;
+        pct = Math.max(5, Math.min(100, Math.round(((score - rank.min) / span) * 100)));
+        remainText = `${Math.max(0, next.min - score)} ${T(UI.rankPtsTo)}`;
+        nextTitle = T(next.title);
+      }
+      el.innerHTML = `
+        <div class="rank-prog-head">
+          <strong>${T(rank.title)}</strong>
+          <span class="rank-prog-arrow">to</span>
+          <span>${nextTitle}</span>
+          <em>${remainText}</em>
+        </div>
+        <div class="rank-prog-track" aria-hidden="true"><div class="rank-prog-fill" style="width:${pct}%"></div></div>
+        <div class="rank-prog-label">${pct}%</div>`;
+    }
+
+    function renderMenuStats() {
+      const stats = getProgressStats();
+      const icons = {
+        score: '<svg viewBox="0 0 24 24" focusable="false"><path d="M12 3 4 8l8 5 8-5-8-5Z"/><path d="m4 13 8 5 8-5"/><path d="m4 18 8 3 8-3"/></svg>',
+        rank: '<svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18"/><path d="M6 8c0-3 3-5 6-5s6 2 6 5c0 4-3 7-6 7s-6-3-6-7Z"/><path d="M8 21h8"/></svg>',
+        cases: '<svg viewBox="0 0 24 24" focusable="false"><path d="M4 5h16v14H4z"/><path d="M8 9h8"/><path d="M8 13h5"/></svg>',
+        badges: '<svg viewBox="0 0 24 24" focusable="false"><path d="M8 4h8v7a4 4 0 0 1-8 0V4Z"/><path d="M8 6H5v3a4 4 0 0 0 4 4"/><path d="M16 6h3v3a4 4 0 0 1-4 4"/><path d="M12 15v4"/><path d="M8 21h8"/></svg>',
+      };
+      $('menu-stats').innerHTML = [
+        { key: 'score', label: T(UI.statScore), value: `${stats.score} pts` },
+        { key: 'rank', label: T(UI.statRank), value: T(stats.rank.title) },
+        { key: 'cases', label: T(UI.statCases), value: `${stats.completed}/${stats.playable}` },
+        { key: 'badges', label: T(UI.statAchievements), value: `${stats.unlocked}/${stats.totalAchievements}` },
+      ].map(item => `
+        <div class="stat-chip stat-${item.key}">
+          <span class="stat-icon" aria-hidden="true">${icons[item.key]}</span>
+          <div>
+            <div class="stat-value">${item.value}</div>
+            <div class="stat-label">${item.label}</div>
+          </div>
+        </div>`).join('');
+    }
+
+    function updateAllUIText() {
+      $('splash-subtitle').textContent = T(UI.tagline);
+      $('splash-desc').innerHTML = T(UI.splashDesc).replace(/\n/g, '<br>');
+      $('splash-btn-text').textContent = T(UI.menuStart);
+      $('splash-footer').textContent = T(UI.splashFooter);
+      var _spTag = $('splash-tagline'); if (_spTag) _spTag.textContent = T(UI.splashTagline);
+      $('menu-tagline').textContent = T(UI.tagline);
+      $('menu-btn-start').textContent = T(UI.menuStart);
+      $('menu-btn-cases').textContent = T(UI.menuCases);
+      $('menu-btn-achieve').textContent = T(UI.menuAchieve);
+      $('menu-btn-settings').textContent = T(UI.menuSettings);
+      $('menu-btn-reset').textContent = T(UI.menuReset);
+      $('menu-btn-about').textContent = T(UI.menuAbout);
+      const menuLangText = $('menu-lang-btn')?.querySelector('.lang-label');
+      if (menuLangText) menuLangText.textContent = currentLang === 'id' ? 'Bahasa Indonesia' : 'English';
+      $('menu-score-display').textContent = T(UI.menuScore) + SaveManager.data.score + ' pts';
+      renderMenuStats();
+      renderRankProgress();
+      updateDashStats();
+      $('cs-title').textContent = T(UI.csTitle);
+      $('cs-desc').textContent = T(UI.csDesc);
+      $('cs-back').textContent = T(UI.csBack).replace(/^.*?\s/, '');
+      $('ach-title').textContent = T(UI.achTitle);
+      $('ach-desc').textContent = T(UI.achDesc);
+      $('ach-back').textContent = T(UI.csBack).replace(/^.*?\s/, '');
+      $('ach-filter-all').textContent = T(UI.filterAll);
+      $('ach-filter-unlocked').textContent = T(UI.filterUnlocked);
+      $('ach-filter-locked').textContent = T(UI.filterLocked);
+      $('set-title').textContent = T(UI.setTitle);
+      $('set-lang-label').textContent = T(UI.setLang);
+      $('set-sound-label').textContent = T(UI.setSound);
+      $('set-motion-label').textContent = T(UI.setMotion);
+      $('set-reset-label').textContent = T(UI.setReset);
+      $('set-reset-btn').textContent = T(UI.setResetBtn);
+      $('set-about-btn').textContent = T(UI.menuAbout);
+      $('set-back').textContent = T(UI.csBack).replace(/^.*?\s/, '');
+      $('about-title').textContent = T(UI.aboutTitle);
+      $('about-lead').textContent = T(UI.aboutLead);
+      $('about-back').textContent = T(UI.csBack).replace(/^.*?\s/, '');
+      $('vn-nameplate').textContent = T(UI.vnName).replace(/[^\w\s]/g, '').trim() || (currentLang === 'id' ? 'Kamu' : 'You');
+      $('vn-continue').textContent = T(UI.vnContinue).replace(/^.*?\s/, '');
+      $('notif-hint').textContent = T(UI.notifHint).replace(/^.*?\s/, '');
+      $('lang-id-btn').classList.toggle('active', currentLang === 'id');
+      $('lang-en-btn').classList.toggle('active', currentLang === 'en');
+      updateSettingsToggles();
+      applyUserPreferences();
+      document.documentElement.lang = currentLang;
+    }
+
+    function renderCaseGrid() {
+      const grid = $('case-grid');
+      grid.innerHTML = '';
+      GAME_DATA.cases.forEach((c, i) => {
+        const card = document.createElement(c.comingSoon ? 'div' : 'button');
+        card.className = 'case-card' + (c.comingSoon ? ' locked' : '') + (SaveManager.isCaseCompleted(c.id) ? ' completed' : '');
+        if (!c.comingSoon) {
+          card.type = 'button';
+          card.setAttribute('aria-label', `${T(c.title)} - ${T(UI.statusAvailable)}`);
+        }
+        const isCompleted = SaveManager.isCaseCompleted(c.id);
+        const caseScore = SaveManager.getCaseScore(c.id);
+        const redFlags = getCaseRedFlags(c);
+        const cm = CASE_META[c.id] || {};
+        const threatChip = cm.threat ? `<span class="mission-chip threat">${T(cm.threat)}</span>` : '';
+        const dangerChip = cm.danger ? `<span class="mission-chip danger-${cm.danger.level}">${T(cm.danger.label)}</span>` : '';
+        const ctaHTML = c.comingSoon ? `<span class="case-cta locked">${T(UI.caseLockedCta)}</span>` : `<span class="case-cta">${T(UI.caseCta)}</span>`;
+        const statusText = c.comingSoon ? T(UI.comingSoon) : (isCompleted ? T(UI.completed) : T(UI.statusAvailable));
+        let badgeHTML = '';
+        if (c.comingSoon) badgeHTML = `<span class="case-card-badge soon">${T(UI.comingSoon)}</span>`;
+        else if (isCompleted) badgeHTML = `<span class="case-card-badge score">${caseScore >= 0 ? '+' : ''}${caseScore} pts</span>`;
+        else badgeHTML = `<span class="case-card-badge done">${T(UI.statusAvailable)}</span>`;
+        const previewHTML = redFlags.length ? `<div class="case-card-preview">${redFlags.map(flag => `<span class="case-preview-chip">${T(flag)}</span>`).join('')}</div>` : '';
+        const scoreChip = isCompleted ? `<span class="mission-chip done">${T(UI.bestScore)}: ${caseScore >= 0 ? '+' : ''}${caseScore}</span>` : '';
+        card.innerHTML = `
+          <div class="case-card-icon" aria-hidden="true"></div>
+          <div class="case-card-info">
+            <div class="case-card-title">${currentLang === 'id' ? 'Kasus' : 'Case'} ${i + 1}: ${T(c.title)}</div>
+            <div class="case-card-meta">
+              <span class="mission-chip">${T(UI.platformLabel)}: ${getCasePlatform(c)}</span>
+              ${threatChip}
+              ${dangerChip}
+              <span class="mission-chip ${isCompleted ? 'done' : c.comingSoon ? 'soon' : ''}">${statusText}</span>
+              ${scoreChip}
+            </div>
+            <div class="case-card-desc">${T(c.description)}</div>
+            ${previewHTML}
+            ${ctaHTML}
+          </div>
+          ${badgeHTML}`;
+        if (!c.comingSoon) card.onclick = () => startCase(i);
+        grid.appendChild(card);
+      });
+    }
+
+    function renderAchievements() {
+      const grid = $('achieve-grid');
+      grid.innerHTML = '';
+      const unlockedCount = SaveManager.data.achievements.length;
+      $('achieve-progress').textContent = `${T(UI.achProgress)}: ${unlockedCount}/${ACHIEVEMENTS.length}`;
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === state.achievementFilter));
+      ACHIEVEMENTS.filter(a => {
+        const unlocked = SaveManager.hasAchievement(a.id);
+        if (state.achievementFilter === 'unlocked') return unlocked;
+        if (state.achievementFilter === 'locked') return !unlocked;
+        return true;
+      }).forEach(a => {
+        const unlocked = SaveManager.hasAchievement(a.id);
+        const meta = getAchievementMeta(a.id);
+        const dateHTML = unlocked ? `<div class="achieve-date">${T(UI.unlockedOn)} ${formatUnlockDate(meta?.unlockedAt)}</div>` : '';
+        const item = document.createElement('div');
+        item.className = 'achieve-item ' + (unlocked ? 'unlocked' : 'locked');
+        item.innerHTML = `
+          <div class="achieve-icon" aria-hidden="true"></div>
+          <div class="achieve-info">
+            <div class="achieve-name">${unlocked ? T(a.title) : '???'}</div>
+            <div class="achieve-desc">${unlocked ? T(a.desc) : T(UI.lockedHint)}</div>
+            ${dateHTML}
+          </div>`;
+        grid.appendChild(item);
       });
     }
 

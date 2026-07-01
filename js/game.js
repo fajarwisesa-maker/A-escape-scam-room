@@ -500,6 +500,240 @@
       updateAllUIText();
     }
 
+    // ===== macOS VISUAL RENDER OVERRIDES =====
+    function showNotification(data) {
+      state.phase = 'notification';
+      const iconEl = $('notif-icon');
+      iconEl.className = 'notif-icon ' + data.icon;
+      iconEl.textContent = '';
+      $('notif-app').textContent = data.app;
+      $('notif-title').textContent = T(data.title);
+      $('notif-body').textContent = T(data.body);
+      $('notif-time').textContent = T(data.time);
+      $('notification').classList.add('show');
+      playNotifSound();
+    }
+
+    function renderWhatsAppChat(content) {
+      $('wa-contact-name').textContent = content.contactName;
+      const el = $('wa-chat');
+      el.innerHTML = '';
+      content.messages.forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'wa-message ' + m.type;
+        let html = `<div class="wa-bubble">${T(m.text)}`;
+        if (m.attachment) {
+          html += `<div class="wa-attachment">
+            <div class="wa-attachment-icon" aria-hidden="true"></div>
+            <div class="wa-attachment-info">
+              <div class="wa-attachment-name">${m.attachment.name}</div>
+              <div class="wa-attachment-size">${m.attachment.size}</div>
+            </div>
+          </div>`;
+        }
+        html += `<div class="wa-msg-time">${m.time}</div></div>`;
+        div.innerHTML = html;
+        el.appendChild(div);
+      });
+    }
+
+    function renderInstagramChat(content) {
+      $('ig-username').textContent = content.username;
+      const el = $('ig-chat');
+      el.innerHTML = '';
+      content.messages.forEach(m => {
+        if (m.type === 'time') {
+          const d = document.createElement('div');
+          d.className = 'ig-msg-time';
+          d.textContent = T(m.text);
+          el.appendChild(d);
+          return;
+        }
+        const div = document.createElement('div');
+        div.className = 'ig-message ' + m.type;
+        let text = T(m.text);
+        if (m.link) text += `<span class="ig-link">${m.link}</span>`;
+        div.innerHTML = `<div class="ig-bubble">${text}</div>`;
+        el.appendChild(div);
+      });
+    }
+
+    function startGlitchSequence() {
+      const choice = state.currentChoice;
+      state.phase = 'glitch';
+      const flash = document.createElement('div');
+      flash.className = 'screen-flash';
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 240);
+
+      const gl = $('glitch-layer');
+      gl.innerHTML = '<div class="scanlines"></div>';
+      showLayer('glitch-layer');
+      playGlitchSound();
+
+      const msgs = currentLang === 'id'
+        ? ['Akses tidak sah terdeteksi', 'Aktivitas malware terindikasi', 'Koneksi server asing aktif', 'Kredensial berisiko bocor']
+        : ['Unauthorized access detected', 'Malware activity indicated', 'Unknown server connection active', 'Credentials may be exposed'];
+      msgs.forEach((msg, i) => {
+        setTimeout(() => {
+          const p = document.createElement('div');
+          p.className = 'hacked-popup';
+          p.innerHTML = `<strong>System Alert</strong><br>${msg}`;
+          p.style.left = (12 + i * 13) + '%';
+          p.style.top = (14 + (i % 2) * 22) + '%';
+          gl.appendChild(p);
+          playGlitchSound();
+        }, 260 + i * 320);
+      });
+
+      setTimeout(() => {
+        const banner = document.createElement('div');
+        banner.className = 'hacked-banner';
+        banner.innerHTML = `
+          <h1>${currentLang === 'id' ? 'System Hacked' : 'System Hacked'}</h1>
+          <p>${currentLang === 'id' ? 'Pilihan ini membuka celah keamanan. Mari lihat risiko nyatanya.' : 'This choice opened a security risk. Let us review what happened.'}</p>
+          <button class="btn-continue" onclick="afterGlitch()">${currentLang === 'id' ? 'Pelajari Risiko' : 'Review the Risk'}</button>`;
+        gl.appendChild(banner);
+      }, 1800);
+    }
+
+    function showEducation() {
+      hideLayer('hacked-details');
+      hideLayer('nearmiss-overlay');
+      const choice = state.currentChoice;
+      const edu = choice.education;
+      state.phase = 'education';
+      finalizeChoiceResult();
+
+      const scoreChange = choice.score;
+      const scoreClass = scoreChange >= 0 ? 'positive' : 'negative';
+      const scoreSign = scoreChange >= 0 ? '+' : '';
+      const card = $('edu-card');
+      let html = `<h2>${T(edu.title)}</h2>`;
+      html += `<div class="edu-status-badge risk-${choice.risk}">${T(UI.eduStatus)} ${T(RISK_META[choice.risk].label)} <strong class="score-change ${scoreClass}">${scoreSign}${scoreChange}</strong></div>`;
+      html += `<div class="edu-section"><p>${T(edu.explanation)}</p></div>`;
+
+      if (edu.redFlags && edu.redFlags.length) {
+        html += `<div class="edu-section"><h3>${T(UI.redFlagsTitle)}</h3><div class="edu-red-flags">`;
+        edu.redFlags.forEach(rf => { html += `<div class="edu-red-flag-item">${T(rf)}</div>`; });
+        html += `</div></div>`;
+      }
+      if (edu.tips && edu.tips.length) {
+        html += `<div class="edu-section"><h3>${T(UI.tipsTitle)}</h3><ul class="edu-list">`;
+        edu.tips.forEach(tip => { html += `<li>${T(tip)}</li>`; });
+        html += `</ul></div>`;
+      }
+      if (edu.whatToDo) html += `<div class="edu-section"><h3>${T(UI.whatToDoTitle)}</h3><p>${T(edu.whatToDo)}</p></div>`;
+      if (edu.terms && edu.terms.length) {
+        html += `<div class="edu-section"><h3>${T(UI.eduTermTitle)}</h3><div class="term-grid">`;
+        edu.terms.forEach(key => {
+          const term = TERM_DEFS[key];
+          if (term) html += `<div class="term-chip"><strong>${T(term.term)}:</strong> ${T(term.desc)}</div>`;
+        });
+        html += `</div></div>`;
+      }
+      if (edu.quote) html += `<div class="edu-section"><h3>${T(UI.quoteTitle)}</h3><div class="edu-quote">${T(edu.quote)}</div></div>`;
+      html += `<div class="edu-actions">
+        <button class="edu-btn secondary" onclick="retryCase()">${T(UI.eduRetry).replace(/^.*?\\s/, '')}</button>
+        <button class="edu-btn primary" onclick="afterCaseComplete()">${T(UI.eduNext).replace(/^.*?\\s/, '')}</button>
+      </div>`;
+      card.innerHTML = html;
+      showLayer('edu-screen');
+    }
+
+    function showCaseClosed(text) {
+      state.phase = 'caseClosed';
+      finalizeChoiceResult();
+      playSuccessSound();
+      hideLayer('app-layer');
+      const choice = state.currentChoice;
+      const edu = choice?.education;
+      $('cc-title').textContent = T(UI.ccTitle);
+      $('case-closed-text').textContent = T(text);
+      $('btn-next-case').textContent = T(UI.ccBtn).replace(/^.*?\s/, '');
+      $('btn-retry-case').textContent = T(UI.eduRetry).replace(/^.*?\s/, '');
+      if (edu) {
+        const flags = (edu.redFlags || []).slice(0, 3).map(flag => `<li>${T(flag)}</li>`).join('');
+        const tips = (edu.tips || []).slice(0, 2).map(tip => `<li>${T(tip)}</li>`).join('');
+        const terms = (edu.terms || []).slice(0, 2).map(key => {
+          const term = TERM_DEFS[key];
+          return term ? `<li><strong>${T(term.term)}:</strong> ${T(term.desc)}</li>` : '';
+        }).join('');
+        $('case-closed-summary').innerHTML = `
+          <div class="edu-status-badge risk-${choice.risk}">${T(UI.eduStatus)} ${T(RISK_META[choice.risk].label)} · +${choice.score}</div>
+          <h3>${T(edu.title)}</h3>
+          <ul>${flags}${tips}${terms}</ul>`;
+      } else {
+        $('case-closed-summary').innerHTML = '';
+      }
+      showLayer('case-closed');
+    }
+
+    function showEnding() {
+      state.phase = 'ending';
+      playSuccessSound();
+      $('desktop').classList.remove('active');
+      $('case-badge').classList.remove('active');
+
+      const score = SaveManager.data.score;
+      const rank = getRank(score);
+      const unlocked = SaveManager.data.achievements;
+      const playable = getPlayableCases();
+      const completedCount = playable.filter(c => SaveManager.isCaseCompleted(c.id)).length;
+
+      let html = `<div class="trophy" aria-hidden="true"></div>
+        <h1>${T(UI.endTitle)}</h1>
+        <h2>${T(UI.endSubtitle)}</h2>
+        <div class="ending-score-card">
+          <div class="score-value">${score}</div>
+          <div class="score-label">${T(UI.endScoreLabel)}</div>
+        </div>
+        <div class="ending-meta">
+          <span>${T(UI.endCompletedLabel)}: ${completedCount}/${playable.length}</span>
+          <span>${T(UI.endRankLabel)} ${T(rank.title)}</span>
+        </div>
+        <div class="certificate-card">
+          <div class="cert-label">${T(UI.endCertificateLabel)}</div>
+          <div class="cert-name">${T(UI.endCertificateName)}</div>
+          <div class="cert-note">${T(UI.endCertificateNote)}</div>
+        </div>
+        <div class="ending-achievements">
+          <h3>${T(UI.endAchieveTitle)}</h3>
+          <div class="ending-achieve-grid">`;
+
+      ACHIEVEMENTS.forEach(a => {
+        const isUnlocked = unlocked.includes(a.id);
+        html += `<div class="ending-achieve-item ${isUnlocked ? '' : 'locked'}">${isUnlocked ? T(a.title) : '???'}</div>`;
+      });
+
+      html += `</div></div>
+        <div class="ending-principles">
+          <h3>${T(UI.endPrinciplesTitle)}</h3>
+          <div class="principle-item">${T(UI.endP1)}</div>
+          <div class="principle-item">${T(UI.endP2)}</div>
+          <div class="principle-item">${T(UI.endP3)}</div>
+        </div>
+        <p class="ending-quote">${T(UI.endQuote)}</p>
+        <div class="edu-actions">
+          <button class="btn-restart" onclick="copyResult()">${T(UI.endCopy).replace(/^.*?\\s/, '')}</button>
+          <button class="btn-restart" onclick="showMainMenu()">${T(UI.endMenu).replace(/^.*?\\s/, '')}</button>
+          <button class="btn-restart" onclick="resetProgressFromMenu()">${T(UI.endReset).replace(/^.*?\\s/, '')}</button>
+          <button class="btn-restart" onclick="restartGame()">${T(UI.endRestart).replace(/^.*?\\s/, '')}</button>
+        </div>`;
+
+      $('ending-content').innerHTML = html;
+      showLayer('ending-screen');
+    }
+
+    function showCopyNotice() {
+      $('toast-icon').textContent = '';
+      $('toast-label').textContent = T(UI.endCopied);
+      $('toast-name').textContent = currentLang === 'id' ? 'Siap dibagikan' : 'Ready to share';
+      $('achievement-toast').classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => $('achievement-toast').classList.remove('show'), 2500);
+    }
+
 window.CyberEscapeGame = {
   init,
   startCase,

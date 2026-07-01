@@ -1,173 +1,119 @@
-/* --- Splash / Title Screen --- */
-    #splash-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(160deg, #05060f 0%, #0a0e27 40%, #1a103a 100%);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
+/* =============================================================
+   Base
+   ============================================================= */
 
-    #splash-screen.hidden {
-      opacity: 0;
-      transform: scale(1.05);
-      pointer-events: none;
-    }
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
 
-    .splash-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(108, 99, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(108, 99, 255, 0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      animation: gridMove 20s linear infinite;
-    }
+html {
+  font-family: var(--font-system);
+  background: #06103a;
+  -webkit-text-size-adjust: 100%;
+}
 
-    @keyframes gridMove {
-      0% {
-        transform: translate(0, 0);
-      }
+body {
+  min-height: 100svh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  color: var(--text-primary);
+  background: var(--gradient-wallpaper);
+  user-select: none;
+  cursor: default;
+}
 
-      100% {
-        transform: translate(60px, 60px);
-      }
-    }
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
 
-    .splash-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-    }
+button {
+  border: 0;
+  color: inherit;
+}
 
-    .splash-icon {
-      font-size: 64px;
-      margin-bottom: 20px;
-      animation: float 3s ease-in-out infinite;
-    }
+button,
+[role="button"],
+.case-card,
+.vn-dialog {
+  -webkit-tap-highlight-color: transparent;
+}
 
-    @keyframes float {
+button:not(:disabled),
+[role="button"],
+.case-card:not(.locked) {
+  cursor: pointer;
+}
 
-      0%,
-      100% {
-        transform: translateY(0);
-      }
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+  filter: grayscale(0.35);
+}
 
-      50% {
-        transform: translateY(-12px);
-      }
-    }
+button:focus-visible,
+[role="button"]:focus-visible,
+.case-card:focus-visible,
+.vn-dialog:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 3px;
+  box-shadow: var(--shadow-focus);
+}
 
-    .splash-title {
-      font-size: clamp(28px, 5vw, 56px);
-      font-weight: 800;
-      letter-spacing: -1px;
-      background: linear-gradient(135deg, #6c63ff, #48dbfb, #ff6b9d);
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: gradientShift 4s ease infinite;
-    }
+svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
-    @keyframes gradientShift {
+.apple-mark svg path,
+.boot-logo svg path:first-child,
+.dock-svg svg path,
+.dock-svg svg rect,
+.dock-svg svg circle,
+.start-icon svg path {
+  fill: currentColor;
+  stroke: none;
+}
 
-      0%,
-      100% {
-        background-position: 0% 50%;
-      }
+img,
+svg {
+  max-width: 100%;
+}
 
-      50% {
-        background-position: 100% 50%;
-      }
-    }
+.screen {
+  display: none;
+}
 
-    .splash-subtitle {
-      font-size: clamp(14px, 2vw, 20px);
-      color: var(--text-secondary);
-      margin-top: 12px;
-      margin-bottom: 8px;
-    }
+.screen.active {
+  display: flex;
+}
 
-    .splash-desc {
-      font-size: clamp(12px, 1.5vw, 16px);
-      color: rgba(255, 255, 255, 0.35);
-      margin-bottom: 40px;
-      max-width: 500px;
-      line-height: 1.6;
-    }
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
 
-    .btn-start {
-      padding: 16px 48px;
-      font-size: 18px;
-      font-weight: 700;
-      font-family: var(--font);
-      color: #fff;
-      background: linear-gradient(135deg, var(--accent), #48dbfb);
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.3s;
-      box-shadow: 0 0 30px var(--accent-glow);
-    }
+::selection {
+  color: #fff;
+  background: rgba(10, 132, 255, 0.72);
+}
 
-    .btn-start:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 0 50px var(--accent-glow), 0 10px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .btn-start:active {
-      transform: translateY(0) scale(0.98);
-    }
-
-    .btn-start::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      background: linear-gradient(135deg, var(--accent), #48dbfb, #ff6b9d, var(--accent));
-      background-size: 400% 400%;
-      border-radius: 50px;
-      z-index: -1;
-      animation: gradientShift 3s ease infinite;
-      filter: blur(8px);
-      opacity: 0.6;
-    }
-
-    .splash-footer {
-      position: absolute;
-      bottom: 30px;
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* --- Monitor Turn-On --- */
-    #monitor-on {
-      position: fixed;
-      inset: 0;
-      z-index: 9998;
-      background: #000;
-      pointer-events: none;
-      animation: monitorOn 0.6s ease-out forwards;
-    }
-
-    @keyframes monitorOn {
-      0% {
-        opacity: 1
-      }
-
-      30% {
-        opacity: 0.8
-      }
-
-      50% {
-        opacity: 0.3
-      }
-
-      100% {
-        opacity: 0
-      }
-    }
+@supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+  :root {
+    --mac-surface: rgba(248, 250, 255, 0.94);
+    --mac-surface-strong: rgba(248, 250, 255, 0.98);
+    --mac-menu: rgba(10, 22, 72, 0.78);
+  }
+}

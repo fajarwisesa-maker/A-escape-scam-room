@@ -1,72 +1,125 @@
 /* =============================================================
-       🎨 CSS — CYBER ESCAPE: PERANGKAP DIGITAL
-       ============================================================= */
+   Cyber Escape macOS Design Tokens
+   ============================================================= */
 
-    /* --- Reset & Base --- */
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-    :root {
-      --bg-desktop: #0a0e27;
-      --bg-taskbar: rgba(12, 12, 30, 0.92);
-      --accent: #6c63ff;
-      --accent-glow: rgba(108, 99, 255, 0.4);
-      --success: #00e676;
-      --danger: #ff1744;
-      --warning: #ffc107;
-      --text-primary: #e8e8f0;
-      --text-secondary: #9e9eb8;
-      --glass-bg: rgba(20, 20, 50, 0.85);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --wa-green: #00a884;
-      --wa-dark: #111b21;
-      --wa-chat-bg: #0b141a;
-      --wa-bubble-in: #202c33;
-      --wa-bubble-out: #005c4b;
-      --ig-bg: #000000;
-      --ig-header: #000000;
-      --ig-bubble-in: #262626;
-      --ig-accent: #0095f6;
-      --font: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      --risk-safe: #00e676;
-      --risk-cautious: #ffc107;
-      --risk-risky: #ff9800;
-      --risk-fatal: #ff1744;
-      --bg-main: #080914;
-      --bg-panel: rgba(13, 18, 42, 0.78);
-      --bg-panel-strong: rgba(18, 24, 56, 0.92);
-      --accent-primary: #7c5cff;
-      --accent-secondary: #21d4fd;
-      --accent-pink: #ff5ca8;
-      --gradient-cyber: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      --gradient-danger: linear-gradient(135deg, #ff5ca8, #ef4444);
-      --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.35);
-      --shadow-glow: 0 0 30px rgba(124, 92, 255, 0.32);
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-5: 20px;
-      --space-6: 24px;
-      --transition-fast: 160ms ease;
-      --transition-med: 260ms ease;
-    }
+:root {
+  color-scheme: light;
 
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      font-family: var(--font);
-      background: #000;
-      color: var(--text-primary);
-      user-select: none;
-      cursor: default;
-    }
+  --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "SF Mono", "Cascadia Mono", Consolas, monospace;
+
+  --mac-bg-0: #07133a;
+  --mac-bg-1: #123ec9;
+  --mac-bg-2: #7e40d6;
+  --mac-bg-3: #d35bbc;
+  --mac-surface: rgba(255, 255, 255, 0.72);
+  --mac-surface-strong: rgba(255, 255, 255, 0.88);
+  --mac-surface-soft: rgba(255, 255, 255, 0.5);
+  --mac-surface-dark: rgba(24, 31, 68, 0.58);
+  --mac-menu: rgba(10, 22, 72, 0.42);
+  --mac-border: rgba(255, 255, 255, 0.34);
+  --mac-border-strong: rgba(255, 255, 255, 0.55);
+
+  --text-primary: #f8fbff;
+  --text-secondary: rgba(248, 251, 255, 0.78);
+  --text-muted: rgba(248, 251, 255, 0.62);
+  --text-dark: #10172f;
+  --text-dark-soft: rgba(16, 23, 47, 0.68);
+  --text-dark-muted: rgba(16, 23, 47, 0.52);
+
+  --accent: #0a84ff;
+  --accent-2: #5e5ce6;
+  --accent-3: #bf5af2;
+  --success: #30d158;
+  --warning: #ff9f0a;
+  --danger: #ff453a;
+  --danger-soft: rgba(255, 69, 58, 0.12);
+  --safe: #34c759;
+  --cautious: #ffd60a;
+  --risky: #ff9f0a;
+  --fatal: #ff453a;
+
+  --wa-green: #25d366;
+  --wa-dark: #0f171d;
+  --wa-chat-bg: #e7ddd2;
+  --wa-bubble-in: #ffffff;
+  --wa-bubble-out: #dcf8c6;
+  --ig-accent: #c13584;
+
+  --gradient-wallpaper:
+    radial-gradient(circle at 76% 34%, rgba(255, 118, 208, 0.54), transparent 34%),
+    radial-gradient(circle at 48% 56%, rgba(77, 139, 255, 0.7), transparent 33%),
+    linear-gradient(140deg, #050b26 0%, #102f9b 42%, #6635c6 70%, #2b185f 100%);
+  --gradient-glass: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.48));
+  --gradient-glass-dark: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
+  --gradient-primary: linear-gradient(135deg, #0a84ff, #6e5cff 58%, #bf5af2);
+  --gradient-danger: linear-gradient(135deg, #ff6b5f, #ff375f);
+
+  --blur-sm: 14px;
+  --blur-md: 24px;
+  --blur-lg: 38px;
+
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --radius-xl: 34px;
+  --radius-squircle: 22%;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  --fs-hero: clamp(3.25rem, 8vw, 7.2rem);
+  --fs-display: clamp(2.4rem, 5vw, 4.8rem);
+  --fs-title: clamp(1.65rem, 3.5vw, 3.25rem);
+  --fs-heading: clamp(1.3rem, 2.1vw, 2rem);
+  --fs-body: clamp(0.93rem, 1.1vw, 1.04rem);
+  --fs-small: 0.875rem;
+  --fs-caption: 0.8125rem;
+
+  --shadow-window: 0 30px 90px rgba(8, 12, 40, 0.38), 0 1px 0 rgba(255,255,255,0.3) inset;
+  --shadow-card: 0 18px 48px rgba(11, 18, 52, 0.18), 0 1px 0 rgba(255,255,255,0.42) inset;
+  --shadow-soft: 0 12px 34px rgba(6, 10, 32, 0.18);
+  --shadow-focus: 0 0 0 4px rgba(10, 132, 255, 0.22);
+  --shadow-danger: 0 18px 42px rgba(255, 69, 58, 0.24);
+
+  --ease: cubic-bezier(.2,.8,.2,1);
+  --transition-fast: 150ms var(--ease);
+  --transition-med: 260ms var(--ease);
+  --transition-slow: 520ms var(--ease);
+
+  --z-wallpaper: 0;
+  --z-screen: 1;
+  --z-shell: 90;
+  --z-case-badge: 105;
+  --z-notification: 300;
+  --z-app: 220;
+  --z-overlay: 400;
+  --z-modal: 520;
+  --z-toast: 700;
+
+  /* Compatibility tokens used by legacy JS/CSS class names. */
+  --font: var(--font-system);
+  --bg-desktop: var(--mac-bg-0);
+  --bg-taskbar: var(--mac-menu);
+  --glass-bg: var(--mac-surface-dark);
+  --glass-border: var(--mac-border);
+  --accent-glow: rgba(10, 132, 255, 0.24);
+  --risk-safe: var(--safe);
+  --risk-cautious: var(--cautious);
+  --risk-risky: var(--risky);
+  --risk-fatal: var(--fatal);
+}
