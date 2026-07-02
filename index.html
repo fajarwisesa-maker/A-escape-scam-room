@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Escape: Perangkap Digital - Game Edukasi Keamanan Digital</title>
+  <meta name="description"
+    content="Game edukasi interaktif tentang keamanan digital untuk pelajar SMP/SMA. Pelajari cara mengenali phishing, scam, dan social engineering melalui simulasi realistis.">
+  <link rel="icon" href="./assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/screens.css">
+  <link rel="stylesheet" href="./css/animations.css">
+  <link rel="stylesheet" href="./css/responsive.css">
+</head>
+
+<body>
+  <div class="mac-wallpaper" aria-hidden="true">
+    <span class="wave wave-one"></span>
+    <span class="wave wave-two"></span>
+    <span class="wave wave-three"></span>
+  </div>
+
+  <div id="mac-shell" aria-hidden="false">
+    <header class="mac-menu-bar">
+      <div class="mac-menu-left">
+        <span class="apple-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false"><path d="M15.5 2.2c-.2 1.5-.9 2.6-2 3.4-1 .8-2.1 1.1-3.1 1 .1-1.3.8-2.6 1.9-3.4 1-.8 2.2-1.1 3.2-1ZM20.4 17.3c-.5 1.1-.8 1.6-1.4 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.4 0-1.8-.9-3.6-.9-1.9 0-2.3.9-3.7.9-1.5 0-2.6-1.6-3.5-3-2.5-3.9-2.8-8.4-1.2-10.8 1.1-1.7 2.8-2.7 4.4-2.7 1.7 0 2.7.9 4 .9 1.3 0 2.1-.9 4-.9 1.4 0 3 .8 4 2.1-3.5 1.9-2.9 6.9.6 8.7Z"/></svg>
+        </span>
+        <strong>Cyber Academy</strong>
+        <nav class="mac-menu-items" aria-label="Menu aplikasi">
+          <span>File</span>
+          <span>Edit</span>
+          <span>View</span>
+          <span>Go</span>
+          <span>Window</span>
+          <span>Help</span>
+        </nav>
+      </div>
+      <div class="mac-status-cluster">
+        <span class="status-icon" aria-label="Sound">
+          <svg viewBox="0 0 24 24" focusable="false"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16 8c1.4 1.4 1.4 6.6 0 8"/><path d="M18.7 5.5c3 3.4 3 9.6 0 13"/></svg>
+        </span>
+        <span class="status-icon" aria-label="Wi-Fi">
+          <svg viewBox="0 0 24 24" focusable="false"><path d="M3 8.5c5.8-4.7 12.2-4.7 18 0"/><path d="M6.5 12c3.7-3 7.3-3 11 0"/><path d="M10 15.5c1.4-1.1 2.6-1.1 4 0"/><path d="M12 19h.1"/></svg>
+        </span>
+        <span class="battery-pill"><span></span></span>
+        <span>100%</span>
+        <span id="mac-menubar-time">--:--</span>
+        <span id="mac-menubar-date">--</span>
+        <div id="case-badge"><span class="case-badge-icon">CASE</span><span id="case-badge-text">Kasus 1</span></div>
+      </div>
+    </header>
+
+    <nav class="mac-dock" aria-label="Dock aplikasi">
+      <button class="dock-icon finder active" type="button" title="Finder" aria-label="Finder">
+        <span class="dock-svg"><svg viewBox="0 0 48 48" focusable="false"><path d="M8 9h32v30H8z"/><path d="M24 9v30"/><path d="M14 20h4"/><path d="M30 20h4"/><path d="M16 30c4 3 12 3 16 0"/></svg></span>
+      </button>
+      <button class="dock-icon folder active" type="button" onclick="showCaseSelect()" title="Cases" aria-label="Pilih kasus">
+        <span class="dock-svg"><svg viewBox="0 0 48 48" focusable="false"><path d="M6 16h36v23H6z"/><path d="M6 13h14l4 5H6z"/></svg></span>
+      </button>
+      <button class="dock-icon browser" type="button" title="Browser" aria-label="Browser">
+        <span class="dock-svg"><svg viewBox="0 0 48 48" focusable="false"><circle cx="24" cy="24" r="17"/><path d="M8 24h32"/><path d="M24 7c7 7 7 27 0 34"/><path d="M24 7c-7 7-7 27 0 34"/></svg></span>
+      </button>
+      <button class="dock-icon chat" id="tb-wa" type="button" title="WhatsApp" aria-label="WhatsApp">
+        <span class="dock-svg"><svg viewBox="0 0 48 48" focusable="false"><path d="M24 8c-9 0-16 6.5-16 14.5 0 4.4 2.2 8.3 5.6 10.9L12 40l7-3.2c1.6.4 3.2.7 5 .7 9 0 16-6.5 16-14.5S33 8 24 8Z"/><path d="M16 22h16"/><path d="M16 27h10"/></svg></span>
+      </button>
+      <button class="dock-icon camera" id="tb-ig" type="button" title="Instagram" aria-label="Instagram">
+        <span class="dock-svg"><svg viewBox="0 0 48 48" focusable="false"><rect x="10" y="10" width="28" height="28" rx="8"/><circle cx="24" cy="24" r="7"/><circle cx="32" cy="16" r="2"/></svg></span>
+      </button>
+      <button class="dock-icon gear" type="button" onclick="showSettings()" title="Settings" aria-label="Pengaturan">
+        <span class="dock-svg"><svg viewBox="0 0 48 48" focusable="false"><circle cx="24" cy="24" r="7"/><path d="M24 6v7M24 35v7M9 24h7M32 24h7M13 13l5 5M30 30l5 5M35 13l-5 5M18 30l-5 5"/></svg></span>
+      </button>
+    </nav>
+  </div>
+
+<main id="screen-stage">
+    <section id="splash-screen" class="screen active mac-screen">
+      
+      <div class="cyber-boot-wrapper">
+        <div class="boot-card glass-cyber-card">
+          
+          <div class="cyber-node-badge">
+            <span class="pulse-dot"></span> SECURE NODE // 0x7F
+          </div>
+
+          <div class="boot-logo-container">
+            <div class="boot-logo" aria-hidden="true">
+              <svg viewBox="0 0 64 64" focusable="false">
+                <path d="M32 6 52 14v16c0 14-8 24-20 29C20 54 12 44 12 30V14L32 6Z"/>
+                <path d="M32 12v40"/>
+              </svg>
+            </div>
+            <div class="logo-scanner"></div>
+          </div>
+
+          <p class="boot-kicker">Cyber Academy</p>
+          <h1 class="glitch-title" data-text="Cyber Escape">Cyber Escape</h1>
+          <p class="hero-subtitle" id="splash-subtitle">Perangkap Digital</p>
+          
+          <div class="divider-line"></div>
+
+          <p class="hero-tagline" id="splash-tagline">Kenali Modusnya. Ambil Keputusan. Selamatkan Datamu.</p>
+          <p class="hero-desc" id="splash-desc">Bisakah kamu mengenali penipuan digital sebelum terlambat?</p>
+          
+          <div class="boot-progress" aria-hidden="true">
+            <span></span>
+          </div>
+          
+          <button class="mac-primary-btn neon-auth-btn" onclick="goToMainMenu()">
+            <span class="btn-glow-layer"></span>
+            <span id="splash-btn-text">Mulai Game</span>
+          </button>
+          
+          <p class="boot-footer" id="splash-footer">Dibuat untuk edukasi keamanan digital pelajar Indonesia</p>
+        </div>
+      </div>
+
+      <div class="dashboard-metrics" aria-hidden="true" style="display: none;">
+        <span id="dash-score">0</span>
+        <span id="dash-cases">0/0</span>
+        <span id="dash-accuracy">-</span>
+        <span id="dash-progress-pct">0%</span>
+        <span id="dash-progress-fill"></span>
+      </div>
+    </section>
+
+    <section id="main-menu" class="screen mac-screen">
+      <div class="mac-window home-window">
+        <div class="window-titlebar">
+          <div class="traffic-lights"><span></span><span></span><span></span></div>
+          <span class="window-title">Cyber Escape Home</span>
+        </div>
+        <div class="home-content">
+          <header class="home-header">
+            <div>
+              <p class="eyebrow">Mission Console</p>
+              <h1 class="menu-title">Cyber Escape</h1>
+              <p class="menu-tagline" id="menu-tagline">THE DIGITAL TRAP</p>
+            </div>
+            <button class="menu-lang-toggle" id="menu-lang-btn" onclick="toggleLang()">
+              <span class="lang-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c3 3 3 15 0 18"/><path d="M12 3c-3-3-3 15 0 18"/></svg></span>
+              <span class="lang-label">Bahasa Indonesia</span>
+            </button>
+          </header>
+
+          <section class="menu-stats" id="menu-stats" aria-label="Player progress"></section>
+          <section class="menu-rank-progress" id="menu-rank-progress" aria-label="Rank progress"></section>
+
+          <button class="start-mission-btn menu-btn primary" onclick="startFirstAvailableCase()" aria-label="Mulai game">
+            <span class="start-icon" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path d="M18 12v24l18-12-18-12Z"/></svg></span>
+            <span class="start-copy">
+              <span class="menu-btn-label" id="menu-btn-start">Mulai Game</span>
+              <small>Mulai misi pertamamu</small>
+            </span>
+            <span class="chevron" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 5 7 7-7 7"/></svg></span>
+          </button>
+
+          <div class="home-actions">
+            <button class="menu-action-btn" onclick="showCaseSelect()"><span class="action-icon folder-mini"></span><span id="menu-btn-cases">Pilih Kasus</span><span class="chevron"></span></button>
+            <button class="menu-action-btn" onclick="showAchievements()"><span class="action-icon trophy-mini"></span><span id="menu-btn-achieve">Pencapaian</span><span class="chevron"></span></button>
+            <button class="menu-action-btn" onclick="showSettings()"><span class="action-icon gear-mini"></span><span id="menu-btn-settings">Pengaturan</span><span class="chevron"></span></button>
+            <button class="menu-action-btn danger-soft" onclick="resetProgressFromMenu()"><span class="action-icon trash-mini"></span><span id="menu-btn-reset">Reset Progress</span><span class="chevron"></span></button>
+            <button class="menu-action-btn" onclick="showAbout()"><span class="action-icon info-mini"></span><span id="menu-btn-about">Tentang Game</span><span class="chevron"></span></button>
+          </div>
+          <div class="menu-score-display" id="menu-score-display" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="case-select" class="screen mac-screen">
+      <div class="mac-window content-window">
+        <div class="window-titlebar">
+          <div class="traffic-lights"><span></span><span></span><span></span></div>
+          <span class="window-title">Mission Library</span>
+        </div>
+        <div class="case-select-content">
+          <div class="section-header">
+            <p class="eyebrow">Cyber Academy</p>
+            <h2 id="cs-title">Pilih Kasus Simulasi</h2>
+            <p id="cs-desc">Pilih skenario kejahatan siber yang ingin kamu selidiki.</p>
+          </div>
+          <div class="case-grid" id="case-grid"></div>
+          <button class="back-btn" onclick="backToMenu()"><span id="cs-back">Kembali ke Menu</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="achievement-screen" class="screen mac-screen">
+      <div class="mac-window content-window">
+        <div class="window-titlebar">
+          <div class="traffic-lights"><span></span><span></span><span></span></div>
+          <span class="window-title">Achievements</span>
+        </div>
+        <div class="achieve-content">
+          <div class="section-header achieve-header">
+            <p class="eyebrow">Milestones</p>
+            <h2 id="ach-title">Pencapaian</h2>
+            <p id="ach-desc">Kumpulkan lencana dengan membuat keputusan aman!</p>
+            <div class="achieve-progress" id="achieve-progress"></div>
+            <div class="achieve-filters" role="group" aria-label="Filter achievement">
+              <button class="filter-btn active" data-filter="all" onclick="setAchievementFilter('all')" id="ach-filter-all">Semua</button>
+              <button class="filter-btn" data-filter="unlocked" onclick="setAchievementFilter('unlocked')" id="ach-filter-unlocked">Terbuka</button>
+              <button class="filter-btn" data-filter="locked" onclick="setAchievementFilter('locked')" id="ach-filter-locked">Terkunci</button>
+            </div>
+          </div>
+          <div class="achieve-grid" id="achieve-grid"></div>
+          <button class="back-btn" onclick="backToMenu()"><span id="ach-back">Kembali ke Menu</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="settings-screen" class="screen mac-screen">
+      <div class="mac-window narrow-window">
+        <div class="window-titlebar">
+          <div class="traffic-lights"><span></span><span></span><span></span></div>
+          <span class="window-title">Settings</span>
+        </div>
+        <div class="settings-content">
+          <div class="section-header">
+            <p class="eyebrow">Preferences</p>
+            <h2 id="set-title">Pengaturan</h2>
+          </div>
+          <div class="settings-group">
+            <div><div class="settings-label" id="set-lang-label">Bahasa / Language</div><p>Pilih bahasa aplikasi.</p></div>
+            <div class="lang-options">
+              <button class="lang-btn" id="lang-id-btn" onclick="setLang('id')">Indonesia</button>
+              <button class="lang-btn" id="lang-en-btn" onclick="setLang('en')">English</button>
+            </div>
+          </div>
+          <div class="settings-group">
+            <div><div class="settings-label" id="set-sound-label">Suara</div><p>Aktifkan efek audio ringan.</p></div>
+            <button class="setting-toggle" id="sound-toggle-btn" onclick="toggleSound()" aria-pressed="true"></button>
+          </div>
+          <div class="settings-group">
+            <div><div class="settings-label" id="set-motion-label">Animasi</div><p>Kurangi gerakan besar untuk kenyamanan.</p></div>
+            <button class="setting-toggle" id="motion-toggle-btn" onclick="toggleReducedMotion()" aria-pressed="false"></button>
+          </div>
+          <div class="settings-group danger-row">
+            <div><div class="settings-label" id="set-reset-label">Reset Progress</div><p>Hapus skor, kasus selesai, dan achievement.</p></div>
+            <button class="btn-danger" id="set-reset-btn" onclick="resetProgress()">Reset Semua Data</button>
+          </div>
+          <div class="settings-actions">
+            <button class="back-btn" onclick="showAbout()"><span id="set-about-btn">Tentang Game</span></button>
+            <button class="back-btn" onclick="backToMenu()"><span id="set-back">Kembali ke Menu</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about-screen" class="screen mac-screen">
+      <div class="mac-window content-window">
+        <div class="window-titlebar">
+          <div class="traffic-lights"><span></span><span></span><span></span></div>
+          <span class="window-title">About Cyber Escape</span>
+        </div>
+        <div class="about-content">
+          <div class="section-header">
+            <p class="eyebrow">Local-first education game</p>
+            <h2 id="about-title">Tentang Game</h2>
+            <p class="about-lead" id="about-lead">Cyber Escape membantu pelajar mengenali scam lewat simulasi chat yang dekat dengan kehidupan sehari-hari.</p>
+          </div>
+          <div class="about-grid" id="about-grid"></div>
+          <button class="back-btn" onclick="backToMenu()"><span id="about-back">Kembali ke Menu</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="desktop" class="screen mac-screen desktop-screen">
+      <div class="desktop-clock">
+        <div class="time" id="desktop-time">--:--</div>
+        <div class="date" id="desktop-date">--</div>
+      </div>
+      <div class="desktop-area">
+        <button class="desktop-icon" type="button"><span class="icon-img folder-icon"></span><span class="icon-label">File Manager</span></button>
+        <button class="desktop-icon" type="button"><span class="icon-img browser-icon"></span><span class="icon-label">Browser</span></button>
+        <button class="desktop-icon" type="button"><span class="icon-img trash-icon"></span><span class="icon-label">Recycle Bin</span></button>
+        <button class="desktop-icon" type="button" onclick="showSettings()"><span class="icon-img settings-icon"></span><span class="icon-label">Settings</span></button>
+        <button class="desktop-icon" type="button"><span class="icon-img notes-icon"></span><span class="icon-label">Notepad</span></button>
+      </div>
+      <div class="taskbar" aria-hidden="true">
+        <div class="taskbar-center"></div>
+        <div class="taskbar-right"><div class="tray-icons"></div><div class="taskbar-clock-small"><div id="taskbar-time">--:--</div><div id="taskbar-date">--</div></div></div>
+      </div>
+    </section>
+
+    <div id="ending-screen" style="display: none;">
+  <div class="ending-content" id="ending-content">
+     </div>
+</div>
+  </main>
+
+  <div id="notification" onclick="onNotificationClick()" role="button" tabindex="0" aria-label="Buka notifikasi">
+    <div class="notif-header">
+      <div class="notif-icon" id="notif-icon"></div>
+      <div class="notif-meta"><span class="notif-app" id="notif-app">App</span><span class="notif-time" id="notif-time">Baru saja</span></div>
+      <span class="notif-warning-dot" aria-hidden="true"></span>
+    </div>
+    <div class="notif-title" id="notif-title">Judul</div>
+    <div class="notif-body" id="notif-body">Isi</div>
+    <div class="notif-hint" id="notif-hint">Klik untuk membuka</div>
+  </div>
+
+  <div id="app-layer">
+    <div class="app-window whatsapp" id="wa-window" style="display:none;">
+      <div class="app-titlebar">
+        <div class="traffic-lights"><span></span><span></span><span></span></div>
+        <div class="app-title">WhatsApp</div>
+      </div>
+      <div class="wa-header">
+        <div class="wa-avatar"></div>
+        <div class="wa-contact-info">
+          <div class="wa-contact-name" id="wa-contact-name">Contact</div>
+          <div class="wa-contact-status">online</div>
+        </div>
+        <div class="wa-header-actions"><span></span><span></span></div>
+      </div>
+      <div class="wa-chat" id="wa-chat"></div>
+    </div>
+    <div class="app-window instagram" id="ig-window" style="display:none;">
+      <div class="app-titlebar">
+        <div class="traffic-lights"><span></span><span></span><span></span></div>
+        <div class="app-title">Instagram</div>
+      </div>
+      <div class="ig-header">
+        <span class="ig-back">Back</span>
+        <div class="ig-avatar"></div>
+        <span class="ig-username" id="ig-username">@user</span>
+        <div class="ig-header-actions"><span></span><span></span></div>
+      </div>
+      <div class="ig-chat" id="ig-chat"></div>
+    </div>
+  </div>
+
+  <div id="vn-overlay">
+    <div class="vn-dialog" id="vn-dialog" onclick="advanceDialog()" role="button" tabindex="0" aria-label="Lanjutkan dialog">
+      <div class="vn-nameplate" id="vn-nameplate">Kamu</div>
+      <div class="vn-text" id="vn-text"></div>
+      <div class="vn-continue" id="vn-continue">Klik untuk lanjut</div>
+    </div>
+  </div>
+
+  <div id="choice-overlay">
+    <div class="choice-container" id="choice-container">
+      <div class="choice-prompt" id="choice-prompt">Kamu harus memutuskan sekarang:</div>
+    </div>
+  </div>
+
+  <div id="glitch-layer">
+    <div class="scanlines"></div>
+  </div>
+
+  <div id="hacked-details">
+    <div class="hacked-details-card" id="hacked-details-card">
+      <div class="hacked-icon" aria-hidden="true"></div>
+      <h2 id="hacked-details-title">Diretas!</h2>
+      <div id="hacked-details-list"></div>
+      <button class="btn-continue" onclick="showEducation()" id="hacked-details-btn">Pelajari kenapa ini terjadi</button>
+    </div>
+  </div>
+
+  <div id="nearmiss-overlay">
+    <div class="nearmiss-card">
+      <div class="nearmiss-icon" aria-hidden="true"></div>
+      <h2 id="nearmiss-title">Hampir Saja!</h2>
+      <p id="nearmiss-text">Kamu beruntung kali ini...</p>
+      <button class="btn-continue" onclick="showEducation()" id="nearmiss-btn">Pelajari lebih lanjut</button>
+    </div>
+  </div>
+
+  <div id="edu-screen">
+    <div class="edu-card" id="edu-card"></div>
+  </div>
+
+ <div id="case-closed">
+  <div class="case-closed-content">
+    <h2 id="cc-title"></h2>
+    <p id="case-closed-text"></p>
+    <div id="case-closed-summary"></div>
+    <div class="case-closed-actions">
+      <button id="btn-retry-case">Retry</button>
+      <button id="btn-next-case">Next</button>
+    </div>
+  </div>
+</div>
+
+  <div id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="confirm-card">
+      <h2 id="confirm-title">Reset Progress?</h2>
+      <p id="confirm-message">Yakin ingin menghapus semua data?</p>
+      <div class="confirm-actions">
+        <button class="edu-btn secondary" id="confirm-cancel-btn" onclick="closeConfirmModal()">Batal</button>
+        <button class="edu-btn primary danger-action" id="confirm-ok-btn">Ya, Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="achievement-toast" aria-live="polite" aria-atomic="true">
+    <div class="toast-icon" id="toast-icon"></div>
+    <div class="toast-info">
+      <div class="toast-label" id="toast-label">ACHIEVEMENT UNLOCKED</div>
+      <div class="toast-name" id="toast-name">APK Blocker</div>
+    </div>
+  </div>
+
+<!-- 1. Fundamental Globals -->
+<script defer src="./js/state.js"></script>
+<script defer src="./js/data.js"></script>
+<script defer src="./js/i18n.js"></script>
+
+<!-- 2. Processing Hardware Engines -->
+<script defer src="./js/storage.js"></script>
+<script defer src="./js/audio.js"></script>
+<script defer src="./js/ranking.js"></script>
+<script defer src="./js/achievements.js"></script>
+
+<!-- 3. Interfaces and Gameplay Cycles -->
+<script defer src="./js/ui.js"></script>
+<script defer src="./js/game.js"></script>
+
+<!-- 4. Ignition Boot -->
+<script defer src="./js/main.js"></script>
+</body>
+
+</html>

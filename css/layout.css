@@ -1,0 +1,356 @@
+/* =============================================================
+   Global macOS Layout
+   ============================================================= */
+
+.mac-wallpaper {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-wallpaper);
+  overflow: hidden;
+  background: var(--gradient-wallpaper);
+}
+
+.mac-wallpaper::before,
+.mac-wallpaper::after,
+.wave {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.mac-wallpaper::before {
+  inset: -18% -8% auto -10%;
+  height: 58%;
+  border-radius: 0 0 56% 44%;
+  background: linear-gradient(130deg, rgba(3, 13, 50, 0.74), rgba(24, 76, 193, 0.38), rgba(255,255,255,0.04));
+  transform: rotate(10deg);
+}
+
+.mac-wallpaper::after {
+  right: -12%;
+  bottom: -18%;
+  width: 72%;
+  height: 68%;
+  border-radius: 58% 42% 0 0;
+  background: radial-gradient(circle at 42% 26%, rgba(255, 125, 221, 0.5), transparent 58%),
+    linear-gradient(140deg, rgba(125, 98, 255, 0.42), rgba(31, 49, 142, 0.36));
+  filter: blur(0.2px);
+}
+
+.wave-one {
+  left: -18%;
+  top: 38%;
+  width: 68%;
+  height: 30%;
+  border-radius: 52% 48% 64% 36%;
+  background: rgba(4, 15, 56, 0.46);
+  transform: rotate(13deg);
+}
+
+.wave-two {
+  left: 30%;
+  bottom: 12%;
+  width: 42%;
+  height: 28%;
+  border-radius: 44% 56% 30% 70%;
+  background: rgba(84, 117, 255, 0.2);
+  transform: rotate(-18deg);
+  filter: blur(2px);
+}
+
+.wave-three {
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 7% 8%, rgba(255,255,255,0.15) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 91% 18%, rgba(255,255,255,0.12) 0 1px, transparent 1.6px);
+  background-size: 180px 180px, 220px 220px;
+  opacity: 0.42;
+}
+
+#mac-shell {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-shell);
+  pointer-events: none;
+}
+
+.mac-menu-bar {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: 0 clamp(14px, 2.4vw, 34px);
+  color: #fff;
+  background: rgba(6, 18, 70, 0.42);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  -webkit-backdrop-filter: blur(var(--blur-md)) saturate(150%);
+  backdrop-filter: blur(var(--blur-md)) saturate(150%);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset;
+  font-size: 14px;
+  line-height: 1;
+  pointer-events: auto;
+}
+
+.mac-menu-left,
+.mac-status-cluster,
+.mac-menu-items {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.mac-menu-left {
+  gap: 16px;
+}
+
+.mac-menu-left strong {
+  font-size: 14px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.mac-menu-items {
+  gap: clamp(14px, 2vw, 26px);
+  color: rgba(255,255,255,0.92);
+  white-space: nowrap;
+}
+
+.apple-mark {
+  width: 18px;
+  height: 18px;
+  color: #fff;
+  display: inline-grid;
+  place-items: center;
+}
+
+.mac-status-cluster {
+  justify-content: flex-end;
+  gap: 13px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+#case-badge {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  padding: 0 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  -webkit-backdrop-filter: blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm));
+}
+
+#case-badge.active {
+  display: inline-flex;
+}
+
+.case-badge-icon {
+  color: rgba(255,255,255,0.72);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.status-icon {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+}
+
+.battery-pill {
+  width: 32px;
+  height: 16px;
+  border: 1.5px solid rgba(255,255,255,0.92);
+  border-radius: 5px;
+  padding: 2px;
+  position: relative;
+}
+
+.battery-pill::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  top: 5px;
+  width: 2px;
+  height: 5px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.92);
+}
+
+.battery-pill span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  background: #73e35c;
+}
+
+#screen-stage {
+  position: relative;
+  z-index: var(--z-screen);
+  min-height: 100svh;
+}
+
+.mac-screen {
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 52px clamp(18px, 3vw, 48px) 110px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: transparent;
+}
+
+.mac-window,
+.boot-card,
+.content-window,
+.narrow-window {
+  position: relative;
+  width: min(100%, 1060px);
+  color: var(--text-dark);
+  background: var(--gradient-glass);
+  border: 1px solid var(--mac-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-window);
+  -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(150%);
+  backdrop-filter: blur(var(--blur-lg)) saturate(150%);
+  overflow: hidden;
+}
+
+.home-window {
+  max-width: 980px;
+}
+
+.content-window {
+  max-width: 1180px;
+  max-height: calc(100svh - 168px);
+  display: flex;
+  flex-direction: column;
+}
+
+.narrow-window {
+  max-width: 760px;
+}
+
+.window-titlebar,
+.app-titlebar {
+  height: 44px;
+  display: grid;
+  grid-template-columns: 82px 1fr 82px;
+  align-items: center;
+  padding: 0 18px;
+  border-bottom: 1px solid rgba(16, 23, 47, 0.08);
+  background: rgba(255,255,255,0.28);
+}
+
+.window-title,
+.app-title {
+  justify-self: center;
+  color: rgba(16, 23, 47, 0.58);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.traffic-lights {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.traffic-lights span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+}
+
+.traffic-lights span:nth-child(1) { background: #ff5f57; }
+.traffic-lights span:nth-child(2) { background: #febc2e; }
+.traffic-lights span:nth-child(3) { background: #28c840; }
+
+.mac-dock {
+  position: absolute;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  padding: 12px 18px 16px;
+  border: 1px solid rgba(255,255,255,0.34);
+  border-radius: 28px;
+  background: rgba(255,255,255,0.22);
+  -webkit-backdrop-filter: blur(var(--blur-md)) saturate(170%);
+  backdrop-filter: blur(var(--blur-md)) saturate(170%);
+  box-shadow: 0 20px 60px rgba(7, 11, 41, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+  pointer-events: auto;
+}
+
+.dock-icon {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.52));
+  box-shadow: 0 10px 22px rgba(8, 13, 42, 0.25), inset 0 1px 0 rgba(255,255,255,0.72);
+  transition: transform var(--transition-med), filter var(--transition-med), box-shadow var(--transition-med);
+}
+
+.dock-icon:hover,
+.dock-icon:focus-visible {
+  transform: translateY(-12px) scale(1.12);
+  filter: saturate(1.12);
+}
+
+.dock-icon.active::after,
+.dock-icon.has-badge::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -9px;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.12);
+}
+
+.dock-icon.has-badge::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--danger);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.72);
+}
+
+.dock-svg {
+  width: 34px;
+  height: 34px;
+  color: #fff;
+}
+
+.dock-icon.finder { background: linear-gradient(135deg, #80d8ff, #2188ff 54%, #f3f8ff 55%); }
+.dock-icon.folder { background: linear-gradient(135deg, #7fd7ff, #2d8cff); }
+.dock-icon.browser { background: radial-gradient(circle at 60% 40%, #fff 0 18%, #4fc3ff 19% 48%, #1f7cff 49%); }
+.dock-icon.chat { background: linear-gradient(135deg, #5ee876, #18b94d); }
+.dock-icon.camera { background: radial-gradient(circle at 70% 25%, #fff 0 8%, transparent 9%), linear-gradient(135deg, #ffd15c, #fd3a84 48%, #5e5ce6); }
+.dock-icon.gear { background: linear-gradient(135deg, #f5f7fb, #9ba3ad); color: #445063; }
+
+.taskbar {
+  display: none !important;
+}

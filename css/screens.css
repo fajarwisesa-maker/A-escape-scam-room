@@ -1,0 +1,1053 @@
+/* =============================================================
+   Screen Styling & State Management
+   ============================================================= */
+
+/* --- CORE LAYER CONTROLLER (Mencegah Penumpukan Layar) --- */
+
+/* 1. Sembunyikan semua screen utama secara default */
+.screen,
+.desktop-screen,
+#splash-screen,
+#main-menu,
+#case-select,
+#achievement-screen,
+#settings-screen,
+#about-screen,
+#desktop,
+#ending-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  
+  /* Sembunyikan total */
+  display: none !important; 
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 2. Tampilkan screen hanya jika memiliki class .active */
+.screen.active,
+.desktop-screen.active,
+#splash-screen.active,
+#main-menu.active,
+#case-select.active,
+#achievement-screen.active,
+#settings-screen.active,
+#about-screen.active,
+#desktop.active,
+#ending-screen.active {
+  display: flex !important;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 3. Pengecualian Layout Khusus untuk Desktop Space */
+#desktop.active {
+  display: block !important;
+}
+
+/* 4. Sembunyikan Game Overlays & Modals bawaan HTML jika belum dipicu */
+#vn-overlay,
+#choice-overlay,
+#glitch-layer,
+#hacked-details,
+#nearmiss-overlay,
+#edu-screen,
+#case-closed,
+#confirm-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none !important;
+  z-index: 100;
+}
+
+/* 5. Tampilkan Overlays & Modals ketika aktif */
+#vn-overlay.active,
+#choice-overlay.active,
+#glitch-layer.active,
+#hacked-details.active,
+#nearmiss-overlay.active,
+#edu-screen.active,
+#case-closed.active,
+#confirm-modal.active {
+  display: flex !important;
+}
+
+/* --- ELEMEN SPLASH / BOOT SCREEN --- */
+
+.boot-card {
+  width: min(560px, calc(100vw - 32px));
+  padding: clamp(30px, 5vw, 54px);
+  text-align: center;
+}
+
+.boot-logo {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  border-radius: 24px;
+  background: var(--gradient-primary);
+  box-shadow: 0 18px 45px rgba(10, 132, 255, 0.3);
+}
+
+.boot-kicker {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.boot-card h1 {
+  margin: 0;
+  color: var(--text-dark);
+  font-size: var(--fs-display);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.hero-subtitle,
+.hero-tagline,
+.hero-desc,
+.boot-footer {
+  color: var(--text-dark-soft);
+}
+
+.hero-subtitle {
+  margin: 10px 0 0;
+  font-size: 1.1rem;
+  font-weight: 750;
+}
+
+.hero-tagline {
+  margin: 22px 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.hero-desc {
+  margin: 12px auto 0;
+  max-width: 420px;
+  line-height: 1.55;
+}
+
+.boot-progress {
+  height: 9px;
+  margin: 24px auto;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(16, 23, 47, 0.12);
+}
+
+.boot-progress span {
+  display: block;
+  width: 72%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--gradient-primary);
+}
+
+.boot-footer {
+  margin: 18px 0 0;
+  font-size: var(--fs-caption);
+}
+
+.dashboard-metrics {
+  display: none;
+}
+
+/* --- MAIN MENU HOME WINDOW --- */
+
+.home-content {
+  padding: clamp(22px, 3.4vw, 38px);
+}
+
+.home-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.menu-title {
+  margin: 0;
+  color: var(--text-dark);
+  font-size: var(--fs-title);
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+.menu-tagline {
+  margin: 9px 0 0;
+  color: var(--text-dark-soft);
+  font-size: var(--fs-body);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.start-mission-btn {
+  width: min(760px, 100%);
+  min-height: 94px;
+  margin: 22px auto 18px;
+  padding: 16px 22px;
+  display: grid;
+  grid-template-columns: 56px 1fr 34px;
+  align-items: center;
+  gap: 16px;
+  border-radius: 28px;
+  text-align: left;
+  box-shadow: 0 24px 54px rgba(10, 84, 210, 0.34), inset 0 1px 0 rgba(255,255,255,0.35);
+}
+
+.start-icon,
+.chevron svg {
+  width: 36px;
+  height: 36px;
+}
+
+.start-icon {
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  color: var(--accent);
+  background: rgba(255,255,255,0.82);
+}
+
+.start-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.start-copy .menu-btn-label {
+  font-size: clamp(1.35rem, 2.5vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.start-copy small {
+  color: rgba(255,255,255,0.78);
+  font-size: var(--fs-small);
+  font-weight: 650;
+}
+
+.home-actions {
+  width: min(720px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.menu-action-btn:last-child {
+  grid-column: 1 / -1;
+}
+
+.menu-action-btn {
+  width: 100%;
+  min-height: 56px;
+  display: grid;
+  grid-template-columns: 38px 1fr 22px;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-radius: 18px;
+  text-align: left;
+  font-weight: 850;
+}
+
+.menu-action-btn .chevron,
+.case-cta::after {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  opacity: 0.58;
+}
+
+.action-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  display: inline-block;
+  background: var(--gradient-primary);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+.folder-mini { background: linear-gradient(135deg, #64d2ff, #0a84ff); }
+.trophy-mini { background: linear-gradient(135deg, #ffd66b, #ff9f0a); }
+.gear-mini { background: linear-gradient(135deg, #f2f4f8, #8e98a8); }
+.trash-mini { background: linear-gradient(135deg, #ff8b82, #ff375f); }
+.info-mini { background: linear-gradient(135deg, #9ad8ff, #5e5ce6); }
+
+.danger-soft {
+  background: rgba(255, 69, 58, 0.11);
+}
+
+.menu-score-display {
+  display: none;
+}
+
+/* --- INTERNAL PAGES INTERFACES --- */
+
+.case-select-content,
+.achieve-content,
+.settings-content,
+.about-content {
+  padding: clamp(20px, 3vw, 34px);
+  overflow-y: auto;
+}
+
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.case-card {
+  position: relative;
+  min-height: 250px;
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 16px;
+  align-items: start;
+  width: 100%;
+  padding: 18px;
+  border: 1px solid rgba(16, 23, 47, 0.09);
+  border-radius: 24px;
+  background: rgba(255,255,255,0.58);
+  color: var(--text-dark);
+  text-align: left;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+
+.case-card:hover:not(.locked) {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.72);
+}
+
+.case-card.locked {
+  cursor: default;
+  opacity: 0.8;
+}
+
+.case-card-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: var(--gradient-primary);
+  font-size: 0;
+}
+
+.case-card-icon::before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: rgba(255,255,255,0.9);
+}
+
+.case-card-title {
+  color: var(--text-dark);
+  font-size: 1.05rem;
+  font-weight: 880;
+  line-height: 1.2;
+}
+
+.case-card-meta {
+  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.case-card-desc {
+  color: var(--text-dark-soft);
+  line-height: 1.5;
+}
+
+.case-card-preview {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.case-cta {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--accent);
+  font-weight: 850;
+}
+
+.case-card-badge {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  min-height: 28px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.6);
+  color: var(--text-dark-soft);
+  font-size: var(--fs-caption);
+  font-weight: 850;
+}
+
+.achieve-header {
+  text-align: center;
+}
+
+.achieve-progress {
+  margin: 14px auto 0;
+  color: var(--text-dark-soft);
+  font-weight: 750;
+}
+
+.achieve-filters {
+  margin-top: 16px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 5px;
+  border-radius: 999px;
+  background: rgba(16, 23, 47, 0.06);
+}
+
+.filter-btn {
+  padding: 0 16px;
+}
+
+.filter-btn.active,
+.lang-btn.active {
+  color: #fff;
+  background: var(--gradient-primary);
+}
+
+.achieve-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.achieve-item {
+  min-height: 188px;
+  padding: 18px;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  border: 1px solid rgba(16, 23, 47, 0.08);
+  border-radius: 24px;
+  background: rgba(255,255,255,0.58);
+  color: var(--text-dark);
+  box-shadow: var(--shadow-card);
+}
+
+.achieve-item.unlocked {
+  background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.5));
+}
+
+.achieve-item.locked {
+  opacity: 0.68;
+}
+
+.achieve-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #ffd66b, #ff9f0a);
+  font-size: 0;
+}
+
+.achieve-icon::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.88);
+}
+
+.achieve-name {
+  font-weight: 880;
+}
+
+.achieve-desc,
+.achieve-date {
+  margin-top: 6px;
+  color: var(--text-dark-soft);
+  line-height: 1.45;
+  font-size: var(--fs-small);
+}
+
+.settings-content {
+  display: grid;
+  gap: 14px;
+}
+
+.settings-group {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+}
+
+.settings-label {
+  color: var(--text-dark);
+  font-weight: 880;
+}
+
+.lang-options {
+  display: flex;
+  gap: 8px;
+}
+
+.lang-btn {
+  padding: 0 16px;
+}
+
+.setting-toggle {
+  width: 104px;
+  padding: 0 14px;
+  font-weight: 850;
+}
+
+.setting-toggle.active {
+  color: #fff;
+  background: var(--gradient-primary);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.about-item strong {
+  display: block;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.about-item span {
+  color: var(--text-dark-soft);
+  line-height: 1.5;
+}
+
+/* --- DESKTOP SPACE --- */
+
+.desktop-screen {
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 52px 34px 112px;
+}
+
+.desktop-area {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(5, 92px);
+  grid-auto-rows: 106px;
+  gap: 20px 34px;
+  align-content: start;
+}
+
+.desktop-icon {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 8px;
+  padding: 4px;
+  color: #fff;
+  background: transparent;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.45);
+}
+
+.desktop-icon:hover {
+  background: rgba(255,255,255,0.1);
+  border-radius: 14px;
+}
+
+.icon-img {
+  width: 62px;
+  height: 62px;
+  border-radius: 18px;
+  box-shadow: 0 10px 22px rgba(8, 13, 42, 0.25), inset 0 1px 0 rgba(255,255,255,0.72);
+}
+
+.folder-icon { background: linear-gradient(135deg, #7fd7ff, #2d8cff); }
+.browser-icon { background: radial-gradient(circle at 60% 40%, #fff 0 18%, #4fc3ff 19% 48%, #1f7cff 49%); }
+.trash-icon { background: linear-gradient(135deg, #f5f7fb, #cfd5dd); }
+.settings-icon { background: linear-gradient(135deg, #f5f7fb, #9099a8); }
+.notes-icon { background: repeating-linear-gradient(0deg, #fff 0 12px, #e7edf8 13px 14px); }
+
+.icon-label {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 650;
+  text-align: center;
+}
+
+.desktop-clock {
+  position: absolute;
+  left: 50%;
+  top: 43%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: rgba(255,255,255,0.88);
+  pointer-events: none;
+}
+
+.desktop-clock .time {
+  font-size: var(--fs-hero);
+  font-weight: 200;
+  letter-spacing: -0.06em;
+}
+
+.desktop-clock .date {
+  margin-top: 8px;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  font-weight: 500;
+}
+
+/* --- GAME OVER / ENDING SCREEN --- */
+
+.ending-content {
+  max-width: 940px;
+  max-height: calc(100svh - 166px);
+  padding: clamp(22px, 3vw, 36px);
+  overflow-y: auto;
+}
+
+.trophy {
+  width: 72px;
+  height: 72px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #ffd66b, #ff9f0a);
+}
+
+.ending-meta,
+.ending-rank-badge,
+.ending-achieve-grid,
+.ending-principles {
+  margin-top: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.ending-achieve-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ending-achieve-item {
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.58);
+  color: var(--text-dark);
+  font-weight: 750;
+}
+
+/* --- UPGRADED CYBER ESCAPE OVERHAUL & ALIGNMENT --- */
+
+.cyber-boot-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 24px 16px;
+  overflow-y: auto; 
+}
+
+.boot-card.glass-cyber-card {
+  background: rgba(10, 18, 42, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 20px;
+  box-shadow: 0 25px 60px -15px rgba(2, 6, 23, 0.9), 
+              0 0 40px rgba(14, 165, 233, 0.15);
+  padding: 45px 35px;
+  width: min(520px, 100%);
+  position: relative;
+  overflow: hidden;
+  margin: auto; 
+}
+
+.cyber-node-badge {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #38bdf8;
+  letter-spacing: 2px;
+  background: rgba(14, 165, 233, 0.1);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  background: #4ade80;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #4ade80;
+  animation: subtleFloat 2s infinite ease-in-out;
+}
+
+.boot-logo-container {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto 15px;
+}
+
+.boot-card .boot-logo {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4);
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.boot-card .boot-logo:hover {
+  transform: scale(1.05) rotate(2deg);
+}
+
+.logo-scanner {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 4px;
+  background: linear-gradient(to bottom, transparent, #38bdf8, transparent);
+  box-shadow: 0 0 10px #38bdf8;
+  animation: scanLaser 3s infinite linear;
+  pointer-events: none;
+}
+
+.glitch-title {
+  color: #ffffff;
+  font-size: 3rem !important;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin: 5px 0 0 0 !important;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.boot-kicker {
+  font-family: var(--font-mono);
+  color: #38bdf8 !important;
+  font-size: 0.8rem;
+  letter-spacing: 4px;
+}
+
+#splash-subtitle {
+  color: #94a3b8;
+  font-size: 1.1rem;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.divider-line {
+  height: 1px;
+  width: 60px;
+  background: rgba(56, 189, 248, 0.4);
+  margin: 20px auto;
+  position: relative;
+}
+
+.divider-line::before {
+  content: ''; position: absolute; top: -2px; left: 26px;
+  width: 8px; height: 5px; background: #38bdf8; border-radius: 2px;
+}
+
+#splash-tagline {
+  color: #e2e8f0;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+#splash-desc {
+  color: #64748b;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.boot-card .boot-progress {
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  height: 6px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 25px auto;
+}
+
+.boot-card .boot-progress span {
+  background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+  box-shadow: 0 0 12px #38bdf8;
+}
+
+.neon-auth-btn {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  font-family: var(--font-mono);
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 8px !important;
+  width: 100%;
+  border: 1px solid #38bdf8 !important;
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.neon-auth-btn:hover {
+  background: #0ea5e9 !important;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.6);
+  transform: translateY(-2px);
+  letter-spacing: 3px;
+}
+
+.neon-auth-btn:active {
+  transform: translateY(0);
+}
+
+#splash-footer {
+  color: #475569;
+  font-size: 0.72rem;
+  margin-top: 25px;
+}
+
+/* --- KEYFRAMES & RESPONSIVE --- */
+
+@keyframes scanLaser {
+  0% { top: 0%; opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@media (max-height: 760px) {
+  .screen.mac-screen {
+    padding: 20px 16px; 
+  }
+  .home-header {
+    margin-bottom: 12px !important;
+  }
+  .menu-title {
+    font-size: 1.8rem !important;
+  }
+  .start-mission-btn {
+    min-height: 54px !important;
+    margin-top: 12px !important;
+  }
+}
+
+.screen.mac-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  padding: 40px 16px;
+}
+
+.home-content,
+.mac-window,
+.case-select-content {
+  margin: auto !important; 
+  flex-shrink: 0; 
+}
+/* Pastikan container kasus mengizinkan scrolling */
+#case-select .case-select-content {
+  max-height: 80vh;      /* Batasi tinggi agar tidak melampaui layar */
+  overflow-y: auto;      /* Aktifkan scroll vertikal */
+  scrollbar-width: none; /* Menyembunyikan scrollbar agar tetap estetik */
+}
+
+/* Pastikan grid kasus tidak memblokir scroll */
+.case-grid {
+  padding-bottom: 40px;  /* Ruang tambahan di bawah agar tidak terpotong */
+}
+/* Pastikan overlay membungkus dengan benar */
+#case-closed {
+    display: none; /* Default hidden */
+    position: fixed;
+    inset: 0;
+    z-index: 5000; /* Harus paling depan */
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto; /* Memungkinkan scroll jika konten panjang */
+}
+
+/* 1. Pastikan overlay menangkap klik, tapi elemen konten di dalamnya tetap bisa diklik */
+#case-closed, #ending-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto; /* Memungkinkan seluruh overlay scroll jika layar sangat kecil */
+}
+
+/* 2. Pastikan konten punya z-index lebih tinggi */
+.case-closed-content, .ending-content {
+  background: #ffffff;
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Penting untuk interaksi */
+  z-index: 10000;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* 3. Pastikan area tombol memiliki ruang dan pointer-events: auto */
+.case-closed-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  pointer-events: auto; /* Memastikan klik diteruskan ke tombol */
+}
+
+.case-closed-actions button {
+  flex: 1;
+  padding: 14px;
+  cursor: pointer;
+  border-radius: 12px;
+  font-weight: 700;
+  /* Tambahkan style dasar agar tombol terlihat nyata */
+  background: #f0f0f0;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.case-closed-actions button:hover {
+  background: #e0e0e0;
+  transform: scale(1.02);
+}
+/* 1. Paksa Overlay agar menangkap klik tetapi tidak menutupi interaksi konten */
+#case-closed {
+    position: fixed;
+    inset: 0;
+    z-index: 10000; /* Pastikan ini angka tertinggi di project Anda */
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto; 
+}
+
+/* 2. Pastikan card tidak menghalangi event klik */
+.case-closed-content {
+    background: #ffffff;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    padding: 30px;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    pointer-events: auto; /* Memastikan event klik bekerja di sini */
+}
+
+/* 3. Area scrollable dan area tombol */
+#case-closed-summary {
+    flex: 1;
+    overflow-y: auto;
+    margin: 15px 0;
+}
+
+.case-closed-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    pointer-events: auto; /* Penting untuk tombol agar bisa diklik */
+    z-index: 10001; 
+}
+
+/* 4. Pastikan tombol benar-benar aktif */
+.case-closed-actions button {
+    flex: 1;
+    padding: 12px;
+    pointer-events: auto;
+    cursor: pointer;
+    background: #007aff; /* Warna contoh agar terlihat */
+    color: white;
+    border: none;
+    border-radius: 12px;
+}
+/* Tambahkan ke CSS Anda */
+#btn-next-case, #btn-retry-case {
+    position: relative;
+    z-index: 9999; /* Memaksa tombol berada di paling atas */
+    cursor: pointer;
+    pointer-events: auto; /* Memastikan klik dideteksi */
+}
+/* =============================================================
+   STRICT Z-INDEX LAYER HIERARCHY
+   ============================================================= */
+
+/* 1. Main Screens (Paling Belakang) */
+.screen { z-index: 10; }
+
+/* 2. Desktop/Background Layers */
+#desktop { z-index: 20; }
+
+/* 3. App Windows (WhatsApp, IG) */
+#app-layer { 
+    position: fixed; 
+    z-index: 500; 
+    pointer-events: none; /* Penting: agar tidak memblokir klik saat tidak aktif */
+}
+
+/* 4. Overlays (Pesan, Dialog, Choice) - HARUS DI ATAS SEMUA */
+#vn-overlay, 
+#choice-overlay, 
+#hacked-details, 
+#nearmiss-overlay, 
+#edu-screen, 
+#case-closed {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 2000 !important; /* Nilai tertinggi untuk memastikan selalu di depan */
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4); /* Efek redup biar fokus */
+    pointer-events: auto;
+}
+
+/* 5. Notifikasi (Paling Depan) */
+#notification { z-index: 3000 !important; }
