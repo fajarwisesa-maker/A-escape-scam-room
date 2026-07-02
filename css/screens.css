@@ -1,4 +1,5 @@
 /* =============================================================
+<<<<<<< HEAD
    Screen Styling & State Management
    ============================================================= */
 
@@ -81,6 +82,11 @@
 
 /* --- ELEMEN SPLASH / BOOT SCREEN --- */
 
+=======
+   Screen Styling
+   ============================================================= */
+
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
 .boot-card {
   width: min(560px, calc(100vw - 32px));
   padding: clamp(30px, 5vw, 54px);
@@ -165,8 +171,11 @@
   display: none;
 }
 
+<<<<<<< HEAD
 /* --- MAIN MENU HOME WINDOW --- */
 
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
 .home-content {
   padding: clamp(22px, 3.4vw, 38px);
 }
@@ -298,8 +307,11 @@
   display: none;
 }
 
+<<<<<<< HEAD
 /* --- INTERNAL PAGES INTERFACES --- */
 
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
 .case-select-content,
 .achieve-content,
 .settings-content,
@@ -551,8 +563,11 @@
   line-height: 1.5;
 }
 
+<<<<<<< HEAD
 /* --- DESKTOP SPACE --- */
 
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
 .desktop-screen {
   align-items: stretch;
   justify-content: stretch;
@@ -627,8 +642,11 @@
   font-weight: 500;
 }
 
+<<<<<<< HEAD
 /* --- GAME OVER / ENDING SCREEN --- */
 
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
 .ending-content {
   max-width: 940px;
   max-height: calc(100svh - 166px);
@@ -663,6 +681,7 @@
   color: var(--text-dark);
   font-weight: 750;
 }
+<<<<<<< HEAD
 
 /* --- UPGRADED CYBER ESCAPE OVERHAUL & ALIGNMENT --- */
 
@@ -1051,3 +1070,5 @@
 
 /* 5. Notifikasi (Paling Depan) */
 #notification { z-index: 3000 !important; }
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae

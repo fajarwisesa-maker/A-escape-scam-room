@@ -331,20 +331,30 @@
     }
 
     // ===== 20. CASE CLOSED =====
+<<<<<<< HEAD
  function showCaseClosed(text) {
+=======
+    function showCaseClosed(text) {
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
       state.phase = 'caseClosed';
       finalizeChoiceResult();
       playSuccessSound();
       hideLayer('app-layer');
+<<<<<<< HEAD
       
       const choice = state.currentChoice;
       const edu = choice?.education;
       
       // Update elemen teks
+=======
+      const choice = state.currentChoice;
+      const edu = choice?.education;
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
       $('cc-title').textContent = T(UI.ccTitle);
       $('case-closed-text').textContent = T(text);
       $('btn-next-case').textContent = T(UI.ccBtn);
       $('btn-retry-case').textContent = T(UI.eduRetry);
+<<<<<<< HEAD
 
       // Membangun ringkasan edukasi (macOS style)
       if (edu) {
@@ -370,6 +380,22 @@
         $('case-closed-summary').innerHTML = '';
       }
       
+=======
+      if (edu) {
+        const flags = (edu.redFlags || []).slice(0, 3).map(flag => `<li>🚩 ${T(flag)}</li>`).join('');
+        const tips = (edu.tips || []).slice(0, 2).map(tip => `<li>🛡️ ${T(tip)}</li>`).join('');
+        const terms = (edu.terms || []).slice(0, 2).map(key => {
+          const term = TERM_DEFS[key];
+          return term ? `<li>🧠 <strong>${T(term.term)}:</strong> ${T(term.desc)}</li>` : '';
+        }).join('');
+        $('case-closed-summary').innerHTML = `
+          <div style="text-align:center;"><div class="edu-status-badge risk-${choice.risk}">${T(UI.eduStatus)} ${T(RISK_META[choice.risk].label)} · +${choice.score}</div></div>
+          <h3>${T(edu.title)}</h3>
+          <ul>${flags}${tips}${terms}</ul>`;
+      } else {
+        $('case-closed-summary').innerHTML = '';
+      }
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
       showLayer('case-closed');
     }
 
@@ -856,6 +882,7 @@
       toastTimer = setTimeout(() => $('achievement-toast').classList.remove('show'), 2500);
     }
 
+<<<<<<< HEAD
 /* =============================================================
    Expose CyberEscapeGame System to Main Bootloader
    ============================================================= */
@@ -865,3 +892,40 @@ window.CyberEscapeGame = {
     retryCase: retryCase,
     afterCaseComplete: afterCaseComplete
 };
+=======
+window.CyberEscapeGame = {
+  init,
+  startCase,
+  showNotification,
+  onNotificationClick,
+  showAppWindow,
+  renderWhatsAppChat,
+  renderInstagramChat,
+  startNarration,
+  showCurrentSlide,
+  advanceDialog,
+  showChoices,
+  makeChoice,
+  checkDigitalDefender,
+  finalizeChoiceResult,
+  processChoiceEffect,
+  startGlitchSequence,
+  revealLockdown,
+  typeTerminal,
+  cleanupHackedFx,
+  hackedLearnMore,
+  hackedRetry,
+  afterGlitch,
+  showNearMiss,
+  showEducation,
+  showCaseClosed,
+  retryCase,
+  afterCaseComplete,
+  showEnding,
+  copyResult,
+  copyText,
+  fallbackCopyText,
+  showCopyNotice,
+  restartGame,
+};
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae

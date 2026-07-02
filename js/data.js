@@ -376,6 +376,7 @@ window.CyberEscapeData = {
   RANKS,
   GAME_DATA,
 };
+<<<<<<< HEAD
 /* =============================================================
    Expose Data Models Globally
    ============================================================= */
@@ -383,3 +384,5 @@ if (typeof GAME_DATA !== 'undefined') window.GAME_DATA = GAME_DATA;
 if (typeof ACHIEVEMENTS !== 'undefined') window.ACHIEVEMENTS = ACHIEVEMENTS;
 if (typeof RANKS !== 'undefined') window.RANKS = RANKS;
 if (typeof TERM_DEFS !== 'undefined') window.TERM_DEFS = TERM_DEFS;
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae

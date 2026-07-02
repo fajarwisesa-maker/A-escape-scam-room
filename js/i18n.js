@@ -143,6 +143,7 @@ window.CyberEscapeI18N = {
   TERM_DEFS,
   RISK_META,
 };
+<<<<<<< HEAD
 /* =============================================================
    Expose Translation Elements to Global Scope
    ============================================================= */
@@ -150,3 +151,5 @@ window.T = T;
 window.UI = UI;
 window.RISK_META = RISK_META;
 window.currentLang = typeof currentLang !== 'undefined' ? currentLang : 'id';
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae

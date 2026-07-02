@@ -12,4 +12,7 @@ function getRank(score) {
 window.CyberEscapeRanking = {
   getRank,
 };
+<<<<<<< HEAD
 window.getRank = getRank;
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae

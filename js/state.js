@@ -15,6 +15,9 @@ window.CyberEscapeState = {
   state,
   $,
 };
+<<<<<<< HEAD
 // Expose core element selector and state tracker globally
 window.$ = $;
 window.state = state;
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae

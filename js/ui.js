@@ -612,10 +612,13 @@
       });
     }
 
+<<<<<<< HEAD
     
 /* =============================================================
    Expose UI Functions to Global Scope (Fixed Layout Stacking)
    ============================================================= */
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
 window.CyberEscapeUI = {
   updateClock,
   typeText,
@@ -639,6 +642,7 @@ window.CyberEscapeUI = {
   showAchievements,
   renderAchievements,
   setAchievementFilter,
+<<<<<<< HEAD
   closeConfirmModal,
   showSettings,
   showAbout,
@@ -676,3 +680,18 @@ window.toggleSound = toggleSound;
 window.toggleReducedMotion = toggleReducedMotion;
 window.resetProgress = resetProgress;
 window.resetProgressFromMenu = resetProgressFromMenu;
+=======
+  showSettings,
+  setLang,
+  toggleLang,
+  updateSettingsToggles,
+  toggleSound,
+  toggleReducedMotion,
+  resetProgress,
+  resetProgressFromMenu,
+  showConfirmModal,
+  closeConfirmModal,
+  showAbout,
+  renderAbout,
+};
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae

@@ -73,5 +73,8 @@
     };
 
 window.CyberEscapeStorage = SaveManager;
+<<<<<<< HEAD
 // Expose the persistence manager globally
 window.SaveManager = SaveManager;
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
