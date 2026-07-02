@@ -20,3 +20,7 @@
 window.CyberEscapeAchievements = {
   showAchievementToast,
 };
+<<<<<<< HEAD
+window.showAchievementToast = showAchievementToast;
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae

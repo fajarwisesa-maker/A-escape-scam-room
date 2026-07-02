@@ -612,6 +612,13 @@
       });
     }
 
+<<<<<<< HEAD
+    
+/* =============================================================
+   Expose UI Functions to Global Scope (Fixed Layout Stacking)
+   ============================================================= */
+=======
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
 window.CyberEscapeUI = {
   updateClock,
   typeText,
@@ -635,6 +642,45 @@ window.CyberEscapeUI = {
   showAchievements,
   renderAchievements,
   setAchievementFilter,
+<<<<<<< HEAD
+  closeConfirmModal,
+  showSettings,
+  showAbout,
+  toggleLang,
+  setLang,
+  toggleSound,
+  toggleReducedMotion,
+  resetProgress,
+  resetProgressFromMenu
+};
+
+// 🌟 CRITICAL: Core layout visibility overrides to prevent screen stacking
+window.showLayer = showLayer;
+window.hideLayer = hideLayer;
+window.hideAllOverlays = hideAllOverlays;
+window.activateScreen = activateScreen;
+window.updateAllUIText = updateAllUIText;
+window.renderMenuStats = renderMenuStats;
+window.updateDashStats = updateDashStats;
+
+// Interactive button onclick overrides
+window.goToMainMenu = goToMainMenu;
+window.showMainMenu = showMainMenu;
+window.backToMenu = backToMenu;
+window.showCaseSelect = showCaseSelect;
+window.startFirstAvailableCase = startFirstAvailableCase;
+window.showAchievements = showAchievements;
+window.setAchievementFilter = setAchievementFilter;
+window.showSettings = showSettings;
+window.showAbout = showAbout;
+window.closeConfirmModal = closeConfirmModal;
+window.toggleLang = toggleLang;
+window.setLang = setLang;
+window.toggleSound = toggleSound;
+window.toggleReducedMotion = toggleReducedMotion;
+window.resetProgress = resetProgress;
+window.resetProgressFromMenu = resetProgressFromMenu;
+=======
   showSettings,
   setLang,
   toggleLang,
@@ -648,3 +694,4 @@ window.CyberEscapeUI = {
   showAbout,
   renderAbout,
 };
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae

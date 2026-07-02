@@ -331,17 +331,56 @@
     }
 
     // ===== 20. CASE CLOSED =====
+<<<<<<< HEAD
+ function showCaseClosed(text) {
+=======
     function showCaseClosed(text) {
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
       state.phase = 'caseClosed';
       finalizeChoiceResult();
       playSuccessSound();
       hideLayer('app-layer');
+<<<<<<< HEAD
+      
       const choice = state.currentChoice;
       const edu = choice?.education;
+      
+      // Update elemen teks
+=======
+      const choice = state.currentChoice;
+      const edu = choice?.education;
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
       $('cc-title').textContent = T(UI.ccTitle);
       $('case-closed-text').textContent = T(text);
       $('btn-next-case').textContent = T(UI.ccBtn);
       $('btn-retry-case').textContent = T(UI.eduRetry);
+<<<<<<< HEAD
+
+      // Membangun ringkasan edukasi (macOS style)
+      if (edu) {
+        const scoreChange = choice.score;
+        const scoreSign = scoreChange >= 0 ? '+' : '';
+        
+        const flags = (edu.redFlags || []).slice(0, 3).map(flag => 
+          `<li class="cc-summary-item">🚩 ${T(flag)}</li>`).join('');
+        
+        const tips = (edu.tips || []).slice(0, 2).map(tip => 
+          `<li class="cc-summary-item">🛡️ ${T(tip)}</li>`).join('');
+
+        $('case-closed-summary').innerHTML = `
+          <div class="cc-meta">
+            <div class="edu-status-badge risk-${choice.risk}">
+              ${T(UI.eduStatus)} ${T(RISK_META[choice.risk].label)} 
+              <strong class="score-change ${scoreChange >= 0 ? 'positive' : 'negative'}">${scoreSign}${choice.score}</strong>
+            </div>
+          </div>
+          <h3 class="cc-edu-title">${T(edu.title)}</h3>
+          <ul class="cc-summary-list">${flags}${tips}</ul>`;
+      } else {
+        $('case-closed-summary').innerHTML = '';
+      }
+      
+=======
       if (edu) {
         const flags = (edu.redFlags || []).slice(0, 3).map(flag => `<li>🚩 ${T(flag)}</li>`).join('');
         const tips = (edu.tips || []).slice(0, 2).map(tip => `<li>🛡️ ${T(tip)}</li>`).join('');
@@ -356,6 +395,7 @@
       } else {
         $('case-closed-summary').innerHTML = '';
       }
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
       showLayer('case-closed');
     }
 
@@ -842,6 +882,17 @@
       toastTimer = setTimeout(() => $('achievement-toast').classList.remove('show'), 2500);
     }
 
+<<<<<<< HEAD
+/* =============================================================
+   Expose CyberEscapeGame System to Main Bootloader
+   ============================================================= */
+window.CyberEscapeGame = {
+    init: init,
+    startCase: startCase,
+    retryCase: retryCase,
+    afterCaseComplete: afterCaseComplete
+};
+=======
 window.CyberEscapeGame = {
   init,
   startCase,
@@ -877,3 +928,4 @@ window.CyberEscapeGame = {
   showCopyNotice,
   restartGame,
 };
+>>>>>>> 40c97689312723f05c31dee8a941c0a06cce5eae
